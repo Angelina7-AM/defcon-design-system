@@ -1,0 +1,48 @@
+/*
+ * Defcon AI Design System — design tokens
+ * Starter values. Replace with your Figma-mapped tokens (the ones in CLAUDE.md).
+ */
+:root {
+  /* Surfaces — off-black, layered */
+  --dfc-surface-0: #0a0a0b;
+  --dfc-surface-1: #141417;
+  --dfc-surface-2: #1c1c20;
+  --dfc-surface-3: #26262b;
+
+  /* Hairlines / borders */
+  --dfc-border-subtle: #2a2a30;
+  --dfc-border-strong: #3a3a42;
+
+  /* Text */
+  --dfc-text-primary: #f4f4f5;
+  --dfc-text-secondary: #a1a1aa;
+  --dfc-text-muted: #6b6b73;
+
+  /* Accent — signal amber */
+  --dfc-accent: #ffb000;
+  --dfc-accent-hover: #ffbf2e;
+  --dfc-accent-pressed: #e09a00;
+  --dfc-accent-contrast: #0a0a0b;
+
+  /* Status */
+  --dfc-danger: #ff4d4d;
+  --dfc-success: #36d399;
+  --dfc-warning: #ffb000;
+
+  /* Type families */
+  --dfc-font-sans: 'Inter', system-ui, -apple-system, sans-serif;
+  --dfc-font-mono: 'IBM Plex Mono', 'JetBrains Mono', ui-monospace, monospace;
+
+  /* Radii */
+  --dfc-radius-sm: 4px;
+  --dfc-radius-md: 6px;
+  --dfc-radius-lg: 10px;
+
+  /* Spacing (4px base) */
+  --dfc-space-1: 4px;
+  --dfc-space-2: 8px;
+  --dfc-space-3: 12px;
+  --dfc-space-4: 16px;
+  --dfc-space-6: 24px;
+  --dfc-space-8: 32px;
+}
