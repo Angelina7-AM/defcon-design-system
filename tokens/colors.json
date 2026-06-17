@@ -1,0 +1,22 @@
+{
+  "colors": {
+    "primary": {
+      "$value": "#0066FF",
+      "$type": "color",
+      "$description": "Primary brand color"
+    },
+    "secondary": {
+      "$value": "#6B7280",
+      "$type": "color",
+      "$description": "Secondary text color"
+    },
+    "background": {
+      "$value": "#FFFFFF",
+      "$type": "color"
+    },
+    "surface": {
+      "$value": "#F3F4F6",
+      "$type": "color"
+    }
+  }
+}
