@@ -1,0 +1,86 @@
+{
+  "$description": "Sample design tokens file for GitFig. Edit this file or replace with your own tokens.",
+  "colors": {
+    "primary": {
+      "$value": "#0066FF",
+      "$type": "color",
+      "$description": "Primary brand color"
+    },
+    "secondary": {
+      "$value": "#6B7280",
+      "$type": "color"
+    },
+    "background": {
+      "default": {
+        "$value": "#FFFFFF",
+        "$type": "color"
+      },
+      "subtle": {
+        "$value": "#F9FAFB",
+        "$type": "color"
+      }
+    },
+    "text": {
+      "primary": {
+        "$value": "#111827",
+        "$type": "color"
+      },
+      "secondary": {
+        "$value": "#6B7280",
+        "$type": "color"
+      }
+    },
+    "success": {
+      "$value": "#10B981",
+      "$type": "color"
+    },
+    "warning": {
+      "$value": "#F59E0B",
+      "$type": "color"
+    },
+    "error": {
+      "$value": "#EF4444",
+      "$type": "color"
+    }
+  },
+  "spacing": {
+    "xs": {
+      "$value": 4,
+      "$type": "number"
+    },
+    "sm": {
+      "$value": 8,
+      "$type": "number"
+    },
+    "md": {
+      "$value": 16,
+      "$type": "number"
+    },
+    "lg": {
+      "$value": 24,
+      "$type": "number"
+    },
+    "xl": {
+      "$value": 32,
+      "$type": "number"
+    }
+  },
+  "borderRadius": {
+    "sm": {
+      "$value": 4,
+      "$type": "number"
+    },
+    "md": {
+      "$value": 8,
+      "$type": "number"
+    },
+    "lg": {
+      "$value": 12,
+      "$type": "number"
+    },
+    "full": {
+      "$value": 9999,
+      "$type": "number"
+    }
+  }
+}
