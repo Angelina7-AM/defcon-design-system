@@ -1,44 +1,48 @@
 /*
  * Defcon AI Design System — design tokens
- * Starter values. Replace with your Figma-mapped tokens (the ones in CLAUDE.md).
+ * Synced to the canonical brand palette:
+ *   Dark #000814 · Indigo #001D3D · Sky #003566 · Gold #FFC300 · Light #EEEEEF
+ *
+ * Legend:
+ *   [brand]   = direct brand value (clean swap)
+ *   [derived] = computed from a brand color — needs design sign-off
+ *   [kept]    = functional UI value, no brand equivalent
+ *   [added]   = new token; requires component wiring + review (not a pure swap)
  */
 :root {
-  /* Surfaces — off-black, layered */
-  --dfc-surface-0: #0a0a0b;
-  --dfc-surface-1: #141417;
-  --dfc-surface-2: #1c1c20;
-  --dfc-surface-3: #26262b;
-
+  /* Surfaces — layered navy (brand dark ramp).
+     NOTE: this replaces the near-neutral off-blacks with the saturated
+     brand navies. See open question in the PR before merging. */
+  --dfc-surface-0: #000814;  /* [brand] Dark */
+  --dfc-surface-1: #001d3d;  /* [brand] Indigo */
+  --dfc-surface-2: #003566;  /* [brand] Sky */
+  --dfc-surface-3: #00427a;  /* [derived] one step beyond Sky on the ramp */
   /* Hairlines / borders */
-  --dfc-border-subtle: #2a2a30;
-  --dfc-border-strong: #3a3a42;
-
+  --dfc-border-subtle: #102a47;  /* [derived] navy hairline */
+  --dfc-border-strong: #1b3f66;  /* [derived] navy hairline */
   /* Text */
-  --dfc-text-primary: #f4f4f5;
-  --dfc-text-secondary: #a1a1aa;
-  --dfc-text-muted: #6b6b73;
-
-  /* Accent — signal amber */
-  --dfc-accent: #ffb000;
-  --dfc-accent-hover: #ffbf2e;
-  --dfc-accent-pressed: #e09a00;
-  --dfc-accent-contrast: #0a0a0b;
-
-  /* Status */
-  --dfc-danger: #ff4d4d;
-  --dfc-success: #36d399;
-  --dfc-warning: #ffb000;
-
+  --dfc-text-primary: #eeeeef;   /* [brand] Light */
+  --dfc-text-secondary: #9ca3b0; /* [derived] dimmed cool-gray from Light */
+  --dfc-text-muted: #5f6776;     /* [derived] dimmed cool-gray from Light */
+  /* Accent — brand gold (was signal amber #ffb000) */
+  --dfc-accent: #ffc300;          /* [brand] Gold */
+  --dfc-accent-hover: #ffce33;    /* [derived] lighter gold */
+  --dfc-accent-pressed: #e0ac00;  /* [derived] darker gold */
+  --dfc-accent-contrast: #000814; /* [brand] Dark — text/icons on gold */
+  /* Status — functional. danger/success have no brand equivalent. */
+  --dfc-danger: #ff4d4d;   /* [kept] */
+  --dfc-success: #36d399;  /* [kept] */
+  --dfc-warning: #ffc300;  /* [brand] Gold — note: identical to accent (pre-existing) */
   /* Type families */
-  --dfc-font-sans: 'Inter', system-ui, -apple-system, sans-serif;
-  --dfc-font-mono: 'IBM Plex Mono', 'JetBrains Mono', ui-monospace, monospace;
-
-  /* Radii */
+  --dfc-font-sans: 'Inter', system-ui, -apple-system, sans-serif;              /* [brand] Inter = digital/web */
+  --dfc-font-mono: 'IBM Plex Mono', ui-monospace, monospace; /* [kept] not a brand typeface */
+  --dfc-font-title: 'Montserrat', sans-serif;  /* [added] brand titles (Semi Bold) — needs wiring */
+  --dfc-font-body: 'Lato', sans-serif;         /* [added] brand body / print — needs wiring */
+  /* Radii (unchanged) */
   --dfc-radius-sm: 4px;
   --dfc-radius-md: 6px;
   --dfc-radius-lg: 10px;
-
-  /* Spacing (4px base) */
+  /* Spacing — 4px base (unchanged) */
   --dfc-space-1: 4px;
   --dfc-space-2: 8px;
   --dfc-space-3: 12px;
