@@ -21,18 +21,37 @@ import '@defcon/ui/tokens.css';
 ## Usage
 
 ```tsx
-import { Button, Surface, MetadataLabel } from '@defcon/ui';
+import { Button, Surface, MetadataLabel, Badge, Avatar, Breadcrumb, BreadcrumbItem } from '@defcon/ui';
 
 export function Panel() {
   return (
     <Surface level={1} padded>
+      <Breadcrumb>
+        <BreadcrumbItem href="/">Home</BreadcrumbItem>
+        <BreadcrumbItem>Simulation</BreadcrumbItem>
+      </Breadcrumb>
       <MetadataLabel>JOB&nbsp;·&nbsp;0x4F2A</MetadataLabel>
+      <Avatar initials="DB" status="online" />
+      <Badge variant="accent">Running</Badge>
       <Button variant="primary">Run simulation</Button>
       <Button variant="ghost">Cancel</Button>
     </Surface>
   );
 }
 ```
+
+## Components
+
+| Component | Notes |
+| --- | --- |
+| `Button` | `variant`: primary/secondary/ghost/success/danger/warning/dark/tertiary · `size`: xs/sm/md/lg/xl · `outline`, `iconOnly`, `loading` |
+| `Surface` | Layered off-black panel, `level` 0–2 |
+| `MetadataLabel` | Monospace uppercase metadata text |
+| `Badge` | `variant`: neutral/subtle/accent/danger/warning/success · `dot`, `loading`, `leftIcon`, `secondaryText`, `iconOnly`, `onDismiss` |
+| `Avatar` / `AvatarGroup` / `AvatarGroupLabel` | `size` xs–2xl, `status` dot, `removable` |
+| `Breadcrumb` / `BreadcrumbItem` | `<nav><ol>` trail; omit `href` on the last item for the current page |
+
+More components (Cards, Modals, Forms, Navbar, Tables, ...) from the Figma design system are being ported incrementally — see open PRs/issues for progress.
 
 Token values are also available in JS:
 

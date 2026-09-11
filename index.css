@@ -43,6 +43,126 @@
   color: var(--dfc-text-primary);
 }
 
+/* --- Button: Figma reconciliation additions --- */
+
+/* New sizes (xs, xl) alongside existing sm/md/lg */
+.dfc-button--xs { font-size: 12px; padding: 6px 12px; }
+.dfc-button--xl { font-size: 16px; padding: 14px 24px; }
+
+/* New color variants — map 1:1 to Figma's Success/Danger/Warning/Dark/Tertiary.
+   Uses existing --dfc-danger/--dfc-success/--dfc-warning status tokens. */
+.dfc-button--success {
+  background: var(--dfc-success);
+  color: var(--dfc-accent-contrast);
+}
+.dfc-button--success:hover:not(:disabled) { filter: brightness(1.08); }
+.dfc-button--success:active:not(:disabled) { filter: brightness(0.92); }
+
+.dfc-button--danger {
+  background: var(--dfc-danger);
+  color: var(--dfc-accent-contrast);
+}
+.dfc-button--danger:hover:not(:disabled) { filter: brightness(1.08); }
+.dfc-button--danger:active:not(:disabled) { filter: brightness(0.92); }
+
+.dfc-button--warning {
+  background: var(--dfc-warning);
+  color: var(--dfc-accent-contrast);
+}
+.dfc-button--warning:hover:not(:disabled) { filter: brightness(1.08); }
+.dfc-button--warning:active:not(:disabled) { filter: brightness(0.92); }
+
+/* "Dark" and "Tertiary" have no existing token equivalent — see gaps noted in
+   README. Falling back to existing surface tokens as a reasonable
+   approximation until dedicated tokens land. */
+.dfc-button--dark {
+  background: var(--dfc-surface-0);
+  color: var(--dfc-text-primary);
+  border-color: var(--dfc-border-strong);
+}
+.dfc-button--dark:hover:not(:disabled) { background: var(--dfc-surface-1); }
+
+.dfc-button--tertiary {
+  background: var(--dfc-surface-2);
+  color: var(--dfc-text-primary);
+}
+.dfc-button--tertiary:hover:not(:disabled) { background: var(--dfc-surface-3); }
+
+/* Outline modifier — transparent fill, colored border + text, per variant.
+   Pairs with any color variant class above (e.g. dfc-button--danger.dfc-button--outline). */
+.dfc-button--outline {
+  background: transparent;
+}
+.dfc-button--primary.dfc-button--outline {
+  color: var(--dfc-accent);
+  border-color: var(--dfc-accent);
+}
+.dfc-button--primary.dfc-button--outline:hover:not(:disabled) { background: var(--dfc-surface-1); }
+
+.dfc-button--secondary.dfc-button--outline {
+  color: var(--dfc-text-primary);
+  border-color: var(--dfc-border-strong);
+}
+
+.dfc-button--success.dfc-button--outline { color: var(--dfc-success); border-color: var(--dfc-success); }
+.dfc-button--danger.dfc-button--outline { color: var(--dfc-danger); border-color: var(--dfc-danger); }
+.dfc-button--warning.dfc-button--outline { color: var(--dfc-warning); border-color: var(--dfc-warning); }
+.dfc-button--dark.dfc-button--outline { color: var(--dfc-text-primary); border-color: var(--dfc-border-strong); }
+.dfc-button--tertiary.dfc-button--outline { color: var(--dfc-text-secondary); border-color: var(--dfc-border-subtle); }
+.dfc-button--ghost.dfc-button--outline { color: var(--dfc-text-secondary); border-color: var(--dfc-border-subtle); }
+
+.dfc-button--outline:hover:not(:disabled) {
+  background: var(--dfc-surface-1);
+}
+
+/* Icon-only modifier — equal padding, square aspect, no label gap */
+.dfc-button--icon-only {
+  padding: 0;
+  gap: 0;
+  aspect-ratio: 1 / 1;
+}
+.dfc-button--icon-only.dfc-button--xs { width: 32px; height: 32px; }
+.dfc-button--icon-only.dfc-button--sm { width: 36px; height: 36px; }
+.dfc-button--icon-only.dfc-button--md { width: 40px; height: 40px; }
+.dfc-button--icon-only.dfc-button--lg { width: 44px; height: 44px; }
+.dfc-button--icon-only.dfc-button--xl { width: 48px; height: 48px; }
+
+/* Loading modifier + inline CSS spinner (no icon asset — intrinsic state) */
+.dfc-button--loading {
+  position: relative;
+  color: transparent;
+  pointer-events: none;
+}
+.dfc-button__spinner {
+  position: absolute;
+  inset: 0;
+  margin: auto;
+  width: 1em;
+  height: 1em;
+  font-size: inherit;
+  border: 2px solid currentColor;
+  border-top-color: transparent;
+  border-radius: 50%;
+  color: inherit;
+  opacity: 0.85;
+  animation: dfc-button-spin 0.6s linear infinite;
+}
+/* currentColor above is transparent (inherited from .dfc-button--loading), so
+   the spinner needs its own visible color layered on top: */
+.dfc-button--loading .dfc-button__spinner {
+  color: var(--dfc-text-primary);
+}
+.dfc-button--primary.dfc-button--loading .dfc-button__spinner,
+.dfc-button--success.dfc-button--loading .dfc-button__spinner,
+.dfc-button--danger.dfc-button--loading .dfc-button__spinner,
+.dfc-button--warning.dfc-button--loading .dfc-button__spinner {
+  color: var(--dfc-accent-contrast);
+}
+
+@keyframes dfc-button-spin {
+  to { transform: rotate(360deg); }
+}
+
 /* Surface */
 .dfc-surface {
   background: var(--dfc-surface-1);
@@ -62,4 +182,318 @@
   letter-spacing: 0.08em;
   text-transform: uppercase;
   color: var(--dfc-text-muted);
+}
+
+/* Badge */
+.dfc-badge {
+  font-family: var(--dfc-font-sans);
+  font-weight: 500;
+  line-height: 1.35;
+  border: 1px solid transparent;
+  border-radius: var(--dfc-radius-sm);
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  white-space: nowrap;
+  vertical-align: middle;
+}
+
+.dfc-badge--sm {
+  gap: var(--dfc-space-1);
+  padding: 2px var(--dfc-space-1);
+  font-size: 12px;
+}
+.dfc-badge--lg {
+  gap: 6px;
+  padding: var(--dfc-space-1) 6px;
+  font-size: 14px;
+}
+
+.dfc-badge--icon-only.dfc-badge--sm { padding: 4px; }
+.dfc-badge--icon-only.dfc-badge--lg { padding: 5px; }
+
+.dfc-badge__icon {
+  flex-shrink: 0;
+  display: inline-flex;
+  width: 12px;
+  height: 12px;
+}
+.dfc-badge--lg .dfc-badge__icon { width: 14px; height: 14px; }
+
+.dfc-badge__dot {
+  flex-shrink: 0;
+  width: 6px;
+  height: 6px;
+  border-radius: 9999px;
+  background: currentColor;
+}
+
+.dfc-badge__label {
+  overflow-wrap: break-word;
+}
+
+.dfc-badge__secondary {
+  font-weight: 400;
+  color: var(--dfc-text-secondary);
+}
+
+.dfc-badge__separator {
+  width: 1px;
+  align-self: stretch;
+  background: currentColor;
+  opacity: 0.25;
+}
+
+.dfc-badge__dismiss {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+  width: 12px;
+  height: 12px;
+  padding: 0;
+  margin: 0;
+  border: none;
+  background: transparent;
+  color: inherit;
+  opacity: 0.7;
+  cursor: pointer;
+  transition: opacity 120ms ease;
+}
+.dfc-badge--lg .dfc-badge__dismiss { width: 14px; height: 14px; }
+.dfc-badge__dismiss:hover { opacity: 1; }
+
+.dfc-badge__loader {
+  animation: dfc-badge-spin 0.9s linear infinite;
+}
+@keyframes dfc-badge-spin {
+  to { transform: rotate(360deg); }
+}
+
+/* Variants — soft tinted background derived from the status color, mixed
+   into the surrounding surface so it reads correctly on the dark base. */
+.dfc-badge--neutral {
+  background: var(--dfc-surface-2);
+  border-color: var(--dfc-border-strong);
+  color: var(--dfc-text-primary);
+}
+
+.dfc-badge--subtle {
+  background: var(--dfc-surface-1);
+  border-color: var(--dfc-border-subtle);
+  color: var(--dfc-text-primary);
+}
+
+.dfc-badge--accent {
+  background: color-mix(in srgb, var(--dfc-accent) 16%, var(--dfc-surface-1));
+  border-color: color-mix(in srgb, var(--dfc-accent) 40%, var(--dfc-surface-1));
+  color: var(--dfc-accent);
+}
+
+.dfc-badge--danger {
+  background: color-mix(in srgb, var(--dfc-danger) 16%, var(--dfc-surface-1));
+  border-color: color-mix(in srgb, var(--dfc-danger) 40%, var(--dfc-surface-1));
+  color: var(--dfc-danger);
+}
+
+.dfc-badge--warning {
+  background: color-mix(in srgb, var(--dfc-warning) 16%, var(--dfc-surface-1));
+  border-color: color-mix(in srgb, var(--dfc-warning) 40%, var(--dfc-surface-1));
+  color: var(--dfc-warning);
+}
+
+.dfc-badge--success {
+  background: color-mix(in srgb, var(--dfc-success) 16%, var(--dfc-surface-1));
+  border-color: color-mix(in srgb, var(--dfc-success) 40%, var(--dfc-surface-1));
+  color: var(--dfc-success);
+}
+
+/* Avatar */
+.dfc-avatar {
+  position: relative;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+  border-radius: 9999px;
+  background: var(--dfc-surface-2);
+  color: var(--dfc-text-secondary);
+  overflow: hidden;
+  font-family: var(--dfc-font-sans);
+  font-weight: 500;
+  line-height: 1;
+  user-select: none;
+}
+
+.dfc-avatar__image {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  pointer-events: none;
+}
+
+.dfc-avatar__fallback {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  text-transform: uppercase;
+  white-space: nowrap;
+}
+
+/* Sizes — px scale taken from Figma's Avatar Size variant axis. */
+.dfc-avatar--xs { width: 18px; height: 18px; font-size: 8px; }
+.dfc-avatar--sm { width: 24px; height: 24px; font-size: 10px; }
+.dfc-avatar--base { width: 32px; height: 32px; font-size: 12px; }
+.dfc-avatar--lg { width: 44px; height: 44px; font-size: 14px; }
+.dfc-avatar--xl { width: 56px; height: 56px; font-size: 16px; }
+.dfc-avatar--2xl { width: 64px; height: 64px; font-size: 18px; }
+
+/* Status dot — size/position scale with the avatar size. */
+.dfc-avatar__dot {
+  position: absolute;
+  right: 0;
+  bottom: 0;
+  border-radius: 9999px;
+  border: 2px solid var(--dfc-surface-1);
+  box-sizing: content-box;
+}
+.dfc-avatar--xs .dfc-avatar__dot,
+.dfc-avatar--sm .dfc-avatar__dot { width: 6px; height: 6px; border-width: 1px; }
+.dfc-avatar--base .dfc-avatar__dot { width: 8px; height: 8px; }
+.dfc-avatar--lg .dfc-avatar__dot { width: 10px; height: 10px; }
+.dfc-avatar--xl .dfc-avatar__dot,
+.dfc-avatar--2xl .dfc-avatar__dot { width: 12px; height: 12px; }
+
+.dfc-avatar__dot--online { background: var(--dfc-success); }
+.dfc-avatar__dot--busy { background: var(--dfc-danger); }
+.dfc-avatar__dot--away { background: var(--dfc-warning); }
+.dfc-avatar__dot--offline { background: var(--dfc-text-muted); }
+
+/* Remove button */
+.dfc-avatar__remove {
+  position: absolute;
+  top: -2px;
+  right: -2px;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 20px;
+  height: 20px;
+  padding: 0;
+  border: 2px solid var(--dfc-surface-1);
+  border-radius: 9999px;
+  background: var(--dfc-surface-3);
+  color: var(--dfc-text-secondary);
+  cursor: pointer;
+  transition: background-color 120ms ease, color 120ms ease;
+}
+.dfc-avatar__remove:hover { background: var(--dfc-border-strong); color: var(--dfc-text-primary); }
+.dfc-avatar__remove-icon { display: block; width: 10px; height: 10px; }
+
+/* AvatarGroup — overlapping stack */
+.dfc-avatar-group {
+  display: inline-flex;
+  align-items: center;
+}
+.dfc-avatar-group__item {
+  border: 2px solid var(--dfc-surface-1);
+}
+.dfc-avatar-group__item:not(:first-child) {
+  margin-left: -10px;
+}
+.dfc-avatar-group--sm .dfc-avatar-group__item:not(:first-child) { margin-left: -8px; }
+.dfc-avatar-group--lg .dfc-avatar-group__item:not(:first-child) { margin-left: -12px; }
+
+.dfc-avatar-group__counter {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: 9999px;
+  background: var(--dfc-surface-2);
+  color: var(--dfc-text-secondary);
+  font-family: var(--dfc-font-sans);
+  font-weight: 500;
+}
+.dfc-avatar-group--sm .dfc-avatar-group__counter { width: 24px; height: 24px; font-size: 10px; }
+.dfc-avatar-group--base .dfc-avatar-group__counter { width: 32px; height: 32px; font-size: 12px; }
+.dfc-avatar-group--lg .dfc-avatar-group__counter { width: 44px; height: 44px; font-size: 14px; }
+
+/* AvatarGroupLabel — avatar + name/helper text */
+.dfc-avatar-group-label {
+  display: inline-flex;
+  align-items: center;
+  gap: var(--dfc-space-2);
+}
+.dfc-avatar-group-label__text {
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+  line-height: 1.2;
+}
+.dfc-avatar-group-label__name {
+  font-family: var(--dfc-font-sans);
+  font-weight: 500;
+  color: var(--dfc-text-primary);
+}
+.dfc-avatar-group-label__helper {
+  font-family: var(--dfc-font-sans);
+  color: var(--dfc-text-secondary);
+}
+.dfc-avatar-group-label--sm .dfc-avatar-group-label__name { font-size: 12px; }
+.dfc-avatar-group-label--sm .dfc-avatar-group-label__helper { font-size: 11px; }
+.dfc-avatar-group-label--base .dfc-avatar-group-label__name { font-size: 14px; }
+.dfc-avatar-group-label--base .dfc-avatar-group-label__helper { font-size: 12px; }
+.dfc-avatar-group-label--lg .dfc-avatar-group-label__name,
+.dfc-avatar-group-label--xl .dfc-avatar-group-label__name { font-size: 16px; }
+.dfc-avatar-group-label--lg .dfc-avatar-group-label__helper,
+.dfc-avatar-group-label--xl .dfc-avatar-group-label__helper { font-size: 14px; }
+
+/* Breadcrumb */
+.dfc-breadcrumb {
+  font-family: var(--dfc-font-sans);
+}
+
+.dfc-breadcrumb__list {
+  display: flex;
+  align-items: center;
+  flex-wrap: wrap;
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  gap: var(--dfc-space-1);
+}
+.dfc-breadcrumb__list--sm { font-size: 13px; }
+.dfc-breadcrumb__list--md { font-size: 14px; }
+
+.dfc-breadcrumb-item {
+  display: inline-flex;
+  align-items: center;
+  gap: var(--dfc-space-2);
+}
+
+.dfc-breadcrumb-item__label {
+  color: var(--dfc-text-secondary);
+  text-decoration: none;
+  font-weight: 500;
+  line-height: 20px;
+  transition: color 120ms ease;
+}
+a.dfc-breadcrumb-item__label:hover {
+  color: var(--dfc-text-primary);
+}
+a.dfc-breadcrumb-item__label:focus-visible {
+  outline: 2px solid var(--dfc-accent);
+  outline-offset: 2px;
+  border-radius: var(--dfc-radius-sm);
+}
+
+.dfc-breadcrumb-item--current .dfc-breadcrumb-item__label {
+  color: var(--dfc-text-muted);
+}
+
+.dfc-breadcrumb-item__separator-icon {
+  color: var(--dfc-text-muted);
+  flex-shrink: 0;
 }

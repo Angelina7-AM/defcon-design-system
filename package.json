@@ -10,7 +10,9 @@
   ],
   "files": [
     "dist",
-    "styles"
+    "index.css",
+    "tokens.css",
+    "icons"
   ],
   "main": "./dist/index.cjs",
   "module": "./dist/index.js",
@@ -21,8 +23,8 @@
       "import": "./dist/index.js",
       "require": "./dist/index.cjs"
     },
-    "./tokens.css": "./styles/tokens.css",
-    "./styles.css": "./styles/index.css"
+    "./tokens.css": "./tokens.css",
+    "./styles.css": "./index.css"
   },
   "scripts": {
     "build": "tsup",
