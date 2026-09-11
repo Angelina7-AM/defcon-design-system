@@ -23,5 +23,24 @@ export type {
 export { Breadcrumb, BreadcrumbItem } from './Breadcrumb';
 export type { BreadcrumbProps, BreadcrumbSize, BreadcrumbItemProps } from './Breadcrumb';
 
+export { Card, CardStatus, CardRow, CardRowStat } from './Card';
+export type {
+  CardProps,
+  CardOrientation,
+  CardStatusProps,
+  CardStatusTone,
+  CardRowProps,
+  CardRowStatProps,
+} from './Card';
+
+export { Alert } from './Alert';
+export type { AlertProps, AlertVariant } from './Alert';
+
+export { Banner } from './Banner';
+export type { BannerProps, BannerVariant, BannerPosition } from './Banner';
+
+export { Accordion, AccordionItem } from './Accordion';
+export type { AccordionProps, AccordionVariant, AccordionItemProps } from './Accordion';
+
 export { tokens } from './tokens';
 export type { Tokens } from './tokens';
