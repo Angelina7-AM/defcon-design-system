@@ -836,18 +836,60 @@ a.dfc-breadcrumb-item__label:focus-visible {
 .dfc-alert--accent.dfc-alert--warning { border-top-color: var(--dfc-warning); }
 .dfc-alert--accent.dfc-alert--danger { border-top-color: var(--dfc-danger); }
 
-/* Banner */
+/* Logo */
+.dfc-logo {
+  position: relative;
+  display: inline-block;
+}
+
+/* Banner
+ *
+ * Mirrors the Figma "Banner" component set (node 1146:21254). Unlike the
+ * rest of this library, Banner is drawn light-mode in Figma and is
+ * reproduced literally: the palette below is the set of raw values the
+ * design uses, scoped to .dfc-banner so it never leaks into the dark
+ * --dfc-* brand tokens. Spacing/radius still come from the brand tokens
+ * where Figma's value and ours agree.
+ *
+ * Figma's Breakpoint axis (Desktop/Tablet/Mobile, drawn at 1280/768/380)
+ * is responsive behavior, not a prop — it lives in the media queries at
+ * the end of this block. Widths are 100% here; the fixed artboard widths
+ * are a Figma framing device.
+ */
 .dfc-banner {
-  font-family: var(--dfc-font-sans);
+  --dfc-banner-surface: #ffffff;
+  --dfc-banner-border: #e5e7eb;
+  --dfc-banner-text: #4a5565;
+  --dfc-banner-heading: #101828;
+  --dfc-banner-link: #1447e6;
+  --dfc-banner-chip-bg: #f3f4f6;
+  --dfc-banner-chip-brand-bg: #eef6ff;
+  --dfc-banner-field-bg: #f9fafb;
+  --dfc-banner-placeholder: #6a7282;
+  --dfc-banner-required: #c70036;
+  --dfc-banner-shadow: 0 1px 0.25px rgba(29, 41, 61, 0.02);
+
+  box-sizing: border-box;
   display: flex;
   align-items: center;
-  gap: var(--dfc-space-3);
+  gap: var(--dfc-space-4);
   width: 100%;
-  box-sizing: border-box;
-  padding: var(--dfc-space-3) var(--dfc-space-4);
-  border-bottom: 1px solid transparent;
+  padding: var(--dfc-space-4);
+  font-family: var(--dfc-font-sans);
   font-size: 14px;
   line-height: 20px;
+  background: var(--dfc-banner-surface);
+  border-bottom: 1px solid var(--dfc-banner-border);
+  color: var(--dfc-banner-text);
+}
+.dfc-banner *,
+.dfc-banner *::before,
+.dfc-banner *::after {
+  box-sizing: border-box;
+}
+.dfc-banner p {
+  margin: 0;
+  overflow-wrap: break-word;
 }
 
 .dfc-banner--fixed-top {
@@ -865,7 +907,43 @@ a.dfc-breadcrumb-item__label:focus-visible {
   z-index: 50;
 }
 
-.dfc-banner__icon {
+/* Classification markings — prescribed colors, not themeable.
+   Figma draws Unclassified's tablet/mobile border as the neutral
+   #e5e7eb while its desktop border is #d0fae5; the tinted border is
+   used at every breakpoint here, matching the other five markings. */
+.dfc-banner--unclassified {
+  --dfc-banner-surface: #006045;
+  --dfc-banner-border: #d0fae5;
+  --dfc-banner-text: #ffffff;
+}
+.dfc-banner--controlled-cui {
+  --dfc-banner-surface: #3c0366;
+  --dfc-banner-border: #f3e8ff;
+  --dfc-banner-text: #ffffff;
+}
+.dfc-banner--confidential {
+  --dfc-banner-surface: #1c398e;
+  --dfc-banner-border: #dbeafe;
+  --dfc-banner-text: #ffffff;
+}
+.dfc-banner--secret {
+  --dfc-banner-surface: #82181a;
+  --dfc-banner-border: #ffe2e2;
+  --dfc-banner-text: #ffffff;
+}
+.dfc-banner--top-secret {
+  --dfc-banner-surface: #fe9a00;
+  --dfc-banner-border: #fef3c6;
+  --dfc-banner-text: #030712;
+}
+.dfc-banner--top-secret-sci {
+  --dfc-banner-surface: #ffdf20;
+  --dfc-banner-border: #fef9c2;
+  --dfc-banner-text: #030712;
+}
+
+/* Leading glyph chip */
+.dfc-banner__chip {
   flex-shrink: 0;
   display: inline-flex;
   align-items: center;
@@ -873,19 +951,219 @@ a.dfc-breadcrumb-item__label:focus-visible {
   width: 24px;
   height: 24px;
   border-radius: 9999px;
-  background: color-mix(in srgb, currentColor 16%, transparent);
+  background: var(--dfc-banner-chip-bg);
+  color: #4a5565;
+}
+.dfc-banner__chip--square {
+  width: 16px;
+  height: 16px;
+  border-radius: var(--dfc-radius-sm);
+  background: var(--dfc-banner-chip-brand-bg);
+  color: var(--dfc-banner-link);
+}
+.dfc-banner__glyph {
+  display: block;
+  flex-shrink: 0;
 }
 
-.dfc-banner__content {
-  flex: 1 1 auto;
+/* default */
+.dfc-banner__marking,
+.dfc-banner__lead {
+  flex: 1 1 0;
   min-width: 0;
-  overflow-wrap: break-word;
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+.dfc-banner__lead {
+  justify-content: center;
+}
+.dfc-banner__text {
+  color: var(--dfc-banner-text);
+}
+.dfc-banner__marking-label {
+  color: var(--dfc-banner-text);
+}
+.dfc-banner a {
+  color: var(--dfc-banner-link);
+  text-decoration: underline;
 }
 
+/* icon & link */
+.dfc-banner__text-link {
+  flex: 1 1 0;
+  min-width: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 6px;
+}
+.dfc-banner__text-link-lead {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+}
+.dfc-banner__link {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 6px;
+  flex-shrink: 0;
+  font-weight: 500;
+  color: var(--dfc-banner-link);
+  text-decoration: underline;
+}
+.dfc-banner__link-arrow {
+  display: block;
+  flex-shrink: 0;
+}
+
+/* heading & description */
+.dfc-banner__copy {
+  flex: 1 1 0;
+  min-width: 0;
+  display: flex;
+  align-items: center;
+  gap: var(--dfc-space-4);
+}
+.dfc-banner__copy-text {
+  flex: 1 1 0;
+  min-width: 0;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  gap: var(--dfc-space-1);
+}
+.dfc-banner__heading {
+  font-size: 18px;
+  line-height: 24px;
+  font-weight: 500;
+  color: var(--dfc-banner-heading);
+}
+.dfc-banner__description {
+  font-size: 14px;
+  line-height: 20px;
+  color: var(--dfc-banner-text);
+}
+
+/* newsletter */
+.dfc-banner__form {
+  flex: 1 1 0;
+  min-width: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: var(--dfc-space-4);
+}
+.dfc-banner__field {
+  display: flex;
+  align-items: center;
+  gap: var(--dfc-space-4);
+  width: 448px;
+  max-width: 100%;
+}
+.dfc-banner__field-label {
+  display: inline-flex;
+  align-items: center;
+  gap: var(--dfc-space-1);
+  flex-shrink: 0;
+  font-size: 14px;
+  line-height: 20px;
+  font-weight: 500;
+  white-space: nowrap;
+  color: var(--dfc-banner-heading);
+}
+.dfc-banner__field-required {
+  color: var(--dfc-banner-required);
+}
+.dfc-banner__hint {
+  display: inline-flex;
+  color: var(--dfc-banner-heading);
+}
+.dfc-banner__hint-glyph,
+.dfc-banner__field-glyph {
+  display: block;
+  flex-shrink: 0;
+}
+.dfc-banner__field-control {
+  flex: 1 1 0;
+  min-width: 0;
+  display: flex;
+  align-items: center;
+  gap: var(--dfc-space-2);
+  padding: var(--dfc-space-2) 10px;
+  background: var(--dfc-banner-field-bg);
+  border: 1px solid var(--dfc-banner-border);
+  border-radius: var(--dfc-radius-lg);
+  box-shadow: var(--dfc-banner-shadow);
+  color: var(--dfc-banner-placeholder);
+}
+.dfc-banner__input {
+  flex: 1 1 0;
+  min-width: 0;
+  padding: 0;
+  border: none;
+  background: transparent;
+  font: inherit;
+  font-size: 14px;
+  line-height: 20px;
+  color: var(--dfc-banner-heading);
+}
+.dfc-banner__input::placeholder {
+  color: var(--dfc-banner-placeholder);
+}
+.dfc-banner__input:focus {
+  outline: none;
+}
+.dfc-banner__field-control:focus-within {
+  border-color: var(--dfc-banner-link);
+}
+
+/* logo + button */
+.dfc-banner--logo-button {
+  justify-content: space-between;
+  border: 1px solid var(--dfc-banner-border);
+  border-radius: var(--dfc-radius-lg);
+  box-shadow: var(--dfc-banner-shadow);
+}
+.dfc-banner__brand {
+  flex: 1 1 0;
+  min-width: 0;
+  display: flex;
+  align-items: center;
+  gap: var(--dfc-space-4);
+}
+.dfc-banner__wordmark {
+  display: block;
+  flex-shrink: 0;
+}
+/* The 24px mark replaces the wordmark below the desktop breakpoint.
+   Both are rendered and toggled here so there is no layout-dependent
+   JS and no SSR/client mismatch. */
+.dfc-banner--logo-button .dfc-banner__mark {
+  display: none;
+}
+.dfc-banner__mark {
+  flex-shrink: 0;
+}
+.dfc-banner__brand-text {
+  flex: 1 1 0;
+  min-width: 0;
+  display: flex;
+  align-items: center;
+  padding-left: var(--dfc-space-4);
+  border-left: 1px solid var(--dfc-banner-border);
+  font-size: 16px;
+  line-height: 24px;
+  color: var(--dfc-banner-text);
+}
+
+/* shared slots */
 .dfc-banner__actions {
   flex-shrink: 0;
   display: flex;
   align-items: center;
+  justify-content: flex-end;
   gap: var(--dfc-space-3);
 }
 
@@ -905,45 +1183,95 @@ a.dfc-breadcrumb-item__label:focus-visible {
   cursor: pointer;
   transition: opacity 120ms ease;
 }
-.dfc-banner__dismiss:hover { opacity: 1; }
+.dfc-banner__dismiss:hover {
+  opacity: 1;
+}
 .dfc-banner__dismiss-icon {
   width: 12px;
   height: 12px;
 }
 
-.dfc-banner--neutral {
-  background: var(--dfc-surface-1);
-  border-bottom-color: var(--dfc-border-subtle);
-  color: var(--dfc-text-primary);
+/* Tablet — Figma's 768px artboards. `icon-link` has no tablet variant in
+   the component set, so it keeps the desktop row. */
+@media (max-width: 1023px) {
+  .dfc-banner--logo-button .dfc-banner__wordmark {
+    display: none;
+  }
+  .dfc-banner--logo-button .dfc-banner__mark {
+    display: inline-block;
+  }
+  .dfc-banner--heading-description {
+    align-items: flex-start;
+  }
+  .dfc-banner--heading-description .dfc-banner__copy {
+    flex-direction: column;
+    align-items: flex-start;
+    justify-content: center;
+  }
+  .dfc-banner--heading-description .dfc-banner__actions {
+    justify-content: flex-start;
+  }
 }
 
-.dfc-banner--accent {
-  background: color-mix(in srgb, var(--dfc-accent) 16%, var(--dfc-surface-1));
-  border-bottom-color: color-mix(in srgb, var(--dfc-accent) 40%, var(--dfc-surface-1));
-  color: var(--dfc-text-primary);
+/* Mobile — Figma's 380px artboards. Every layout stacks and left-aligns. */
+@media (max-width: 767px) {
+  .dfc-banner {
+    align-items: flex-start;
+  }
+  .dfc-banner__lead,
+  .dfc-banner__marking {
+    align-items: flex-start;
+  }
+  .dfc-banner__lead {
+    justify-content: flex-start;
+  }
+  .dfc-banner__text,
+  .dfc-banner__marking-label {
+    flex: 1 1 0;
+    min-width: 0;
+    text-align: left;
+  }
+  .dfc-banner--icon-link .dfc-banner__text-link {
+    flex-direction: column;
+    align-items: flex-start;
+    justify-content: center;
+  }
+  .dfc-banner--newsletter .dfc-banner__form {
+    flex-direction: column;
+    align-items: stretch;
+    gap: 10px;
+  }
+  .dfc-banner--newsletter .dfc-banner__field {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 10px;
+    width: 100%;
+  }
+  .dfc-banner--newsletter .dfc-banner__field-control {
+    width: 100%;
+  }
+  .dfc-banner--newsletter .dfc-banner__actions {
+    justify-content: stretch;
+  }
+  /* Wrap rather than stack, so the CTA row and the dismiss control share
+     a line the way Figma's mobile "Buttons" row does, instead of the
+     dismiss dropping to a stray line of its own. */
+  .dfc-banner--logo-button {
+    flex-wrap: wrap;
+    align-items: center;
+    gap: var(--dfc-space-4);
+  }
+  .dfc-banner--logo-button .dfc-banner__brand {
+    flex: 1 0 100%;
+  }
+  .dfc-banner--logo-button .dfc-banner__brand-text {
+    font-size: 14px;
+  }
+  .dfc-banner--logo-button .dfc-banner__actions {
+    flex: 1 1 auto;
+    justify-content: flex-start;
+  }
 }
-.dfc-banner--accent .dfc-banner__icon { color: var(--dfc-accent); }
-
-.dfc-banner--danger {
-  background: color-mix(in srgb, var(--dfc-danger) 16%, var(--dfc-surface-1));
-  border-bottom-color: color-mix(in srgb, var(--dfc-danger) 40%, var(--dfc-surface-1));
-  color: var(--dfc-text-primary);
-}
-.dfc-banner--danger .dfc-banner__icon { color: var(--dfc-danger); }
-
-.dfc-banner--warning {
-  background: color-mix(in srgb, var(--dfc-warning) 16%, var(--dfc-surface-1));
-  border-bottom-color: color-mix(in srgb, var(--dfc-warning) 40%, var(--dfc-surface-1));
-  color: var(--dfc-text-primary);
-}
-.dfc-banner--warning .dfc-banner__icon { color: var(--dfc-warning); }
-
-.dfc-banner--success {
-  background: color-mix(in srgb, var(--dfc-success) 16%, var(--dfc-surface-1));
-  border-bottom-color: color-mix(in srgb, var(--dfc-success) 40%, var(--dfc-surface-1));
-  color: var(--dfc-text-primary);
-}
-.dfc-banner--success .dfc-banner__icon { color: var(--dfc-success); }
 
 /* Accordion */
 .dfc-accordion {

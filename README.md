@@ -50,6 +50,14 @@ export function Panel() {
 | `Badge` | `variant`: neutral/subtle/accent/danger/warning/success · `dot`, `loading`, `leftIcon`, `secondaryText`, `iconOnly`, `onDismiss` |
 | `Avatar` / `AvatarGroup` / `AvatarGroupLabel` | `size` xs–2xl, `status` dot, `removable` |
 | `Breadcrumb` / `BreadcrumbItem` | `<nav><ol>` trail; omit `href` on the last item for the current page |
+| `Banner` | `type`: default/heading-description/icon-link/newsletter/logo-button + the six classification markings (unclassified/controlled-cui/confidential/secret/top-secret/top-secret-sci) · `position`, `showIcon`, `actions`, `onDismiss` |
+| `Logo` / `Wordmark` | DEFCON brand marks — the 24px gradient mark and the "DEFCON AI" wordmark |
+
+`Banner` is reproduced literally from its Figma component set, which is drawn
+light-mode; its palette is scoped to `.dfc-banner` and does not use the dark
+`--dfc-*` brand tokens. The classification colors are prescribed and are not
+themeable. Figma's `Breakpoint` axis is responsive behavior rather than a prop,
+so it is implemented as media queries.
 
 More components (Cards, Modals, Forms, Navbar, Tables, ...) from the Figma design system are being ported incrementally — see open PRs/issues for progress.
 

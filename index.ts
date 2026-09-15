@@ -37,7 +37,10 @@ export { Alert } from './Alert';
 export type { AlertProps, AlertVariant } from './Alert';
 
 export { Banner } from './Banner';
-export type { BannerProps, BannerVariant, BannerPosition } from './Banner';
+export type { BannerProps, BannerType, BannerPosition } from './Banner';
+
+export { Logo, Wordmark } from './Logo';
+export type { LogoProps, WordmarkProps } from './Logo';
 
 export { Accordion, AccordionItem } from './Accordion';
 export type { AccordionProps, AccordionVariant, AccordionItemProps } from './Accordion';
