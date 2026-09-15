@@ -52,6 +52,63 @@ export function Panel() {
 | `Breadcrumb` / `BreadcrumbItem` | `<nav><ol>` trail; omit `href` on the last item for the current page |
 | `Banner` | `type`: default/heading-description/icon-link/newsletter/logo-button + the six classification markings (unclassified/controlled-cui/confidential/secret/top-secret/top-secret-sci) · `position`, `showIcon`, `actions`, `onDismiss` |
 | `Logo` / `Wordmark` | DEFCON brand marks — the 24px gradient mark and the "DEFCON AI" wordmark |
+| `Checkbox` | `variant`: checkbox/radio/toggle · `label`, `helperText` — renders a real `<input>` |
+| `DropdownListItem` | All 17 Figma `Type` layouts · `tone`: default/danger · `disabled` · slots for `leftIcon`/`rightIcon`/`icons`/`avatar`/`badge`/`flag` |
+| `DropdownHeader` | All 5 Figma `Type` layouts: text-helper/with-avatar/selector/big-avatar/form |
+| `DropdownMenu` / `DropdownMenuSeparator` | The menu surface — all 16 Figma `Type` compositions |
+
+> **`DropdownMenu`'s 16 types carry the design's sample content.** Each one is the
+> same surface wrapping a different arrangement of `DropdownHeader` /
+> `DropdownListItem` / `Checkbox`, so `type="menu"` renders the AI-model list from
+> Figma, `type="users"` renders those ten people, and so on. That was an explicit
+> choice to reproduce the Figma frame exactly — it makes the types demonstrations
+> rather than reusable menus.
+>
+> For a real menu, pass your own `children` (the sample content is replaced) or
+> put `.dfc-ddm` on your own element:
+>
+> ```tsx
+> <DropdownMenu>
+>   <DropdownHeader type="with-avatar" … />
+>   <DropdownListItem leftIcon={<Icon />} text="Account" />
+>   <DropdownMenuSeparator />
+>   <DropdownListItem tone="danger" text="Sign out" />
+> </DropdownMenu>
+> ```
+
+`DropdownHeader` is the non-interactive row above a list of `DropdownListItem`s:
+
+```tsx
+<DropdownHeader type="with-avatar" avatar={<Avatar …/>} text="Jese Leos"
+                secondaryText="name@DEFCON.com" badge="PRO" />
+<DropdownHeader type="form" onValueChange={setQuery} />
+<DropdownListItem type="default" leftIcon={<UserIcon />} text="First Action" />
+```
+
+`badge` takes the badge's **text**, not a `Badge` element — the brand-tinted pill
+the design draws is already applied by the wrapper. `big-avatar` takes an
+`actions` slot for the button the design places under the name.
+
+`DropdownHeader`, `DropdownListItem` and `Checkbox` are the first components painted from the
+`--color-*` token families rather than `--dfc-*`, so **they need `tokens.css`
+imported** (see Install) and they follow light/dark automatically.
+
+For `DropdownListItem`, Figma's `State` axis is not a prop: hover is a real
+`:hover` and disabled is the `disabled` prop, so the one component covers all 51
+variants. `DropdownHeader` has no `State` axis — a header is not interactive.
+
+```tsx
+<DropdownListItem type="secondary-text" leftIcon={<UserIcon />} text="First Action" secondaryText="(456)" />
+<DropdownListItem type="right-form" leftIcon={<UserIcon />} text="Notifications" onCheckedChange={setOn} />
+```
+
+Icons, avatars, badges and flags are consumer-supplied slots, mirroring the
+instance-swap properties in Figma. The exported glyphs the design uses are
+committed under `icons/` (64 glyphs: UI icons, six country flags, AI-model logos
+and an empty-state illustration). The ones the `DropdownMenu` compositions need
+are inlined in `MenuIcons.tsx` with `currentColor` so they follow the theme; the
+raw files carry the fills Figma exported, so inline them the same way if you use
+them directly.
 
 `Banner` is reproduced literally from its Figma component set, which is drawn
 light-mode; its palette is scoped to `.dfc-banner` and does not use the dark
