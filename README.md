@@ -52,6 +52,63 @@ export function Panel() {
 | `Breadcrumb` / `BreadcrumbItem` | `<nav><ol>` trail; omit `href` on the last item for the current page |
 | `Banner` | `type`: default/heading-description/icon-link/newsletter/logo-button + the six classification markings (unclassified/controlled-cui/confidential/secret/top-secret/top-secret-sci) · `position`, `showIcon`, `actions`, `onDismiss` |
 | `Logo` / `Wordmark` | DEFCON brand marks — the 24px gradient mark and the "DEFCON AI" wordmark |
+| `Checkbox` | `variant`: checkbox/radio/toggle · `label`, `helperText` — renders a real `<input>` |
+| `DropdownListItem` | All 17 Figma `Type` layouts · `tone`: default/danger · `disabled` · slots for `leftIcon`/`rightIcon`/`icons`/`avatar`/`badge`/`flag` |
+| `DropdownHeader` | All 5 Figma `Type` layouts: text-helper/with-avatar/selector/big-avatar/form |
+| `DropdownMenu` / `DropdownMenuSeparator` | The menu surface — all 16 Figma `Type` compositions |
+
+> **`DropdownMenu`'s 16 types carry the design's sample content.** Each one is the
+> same surface wrapping a different arrangement of `DropdownHeader` /
+> `DropdownListItem` / `Checkbox`, so `type="menu"` renders the AI-model list from
+> Figma, `type="users"` renders those ten people, and so on. That was an explicit
+> choice to reproduce the Figma frame exactly — it makes the types demonstrations
+> rather than reusable menus.
+>
+> For a real menu, pass your own `children` (the sample content is replaced) or
+> put `.dfc-ddm` on your own element:
+>
+> ```tsx
+> <DropdownMenu>
+>   <DropdownHeader type="with-avatar" … />
+>   <DropdownListItem leftIcon={<Icon />} text="Account" />
+>   <DropdownMenuSeparator />
+>   <DropdownListItem tone="danger" text="Sign out" />
+> </DropdownMenu>
+> ```
+
+`DropdownHeader` is the non-interactive row above a list of `DropdownListItem`s:
+
+```tsx
+<DropdownHeader type="with-avatar" avatar={<Avatar …/>} text="Jese Leos"
+                secondaryText="name@DEFCON.com" badge="PRO" />
+<DropdownHeader type="form" onValueChange={setQuery} />
+<DropdownListItem type="default" leftIcon={<UserIcon />} text="First Action" />
+```
+
+`badge` takes the badge's **text**, not a `Badge` element — the brand-tinted pill
+the design draws is already applied by the wrapper. `big-avatar` takes an
+`actions` slot for the button the design places under the name.
+
+`DropdownHeader`, `DropdownListItem` and `Checkbox` are the first components painted from the
+`--color-*` token families rather than `--dfc-*`, so **they need `tokens.css`
+imported** (see Install) and they follow light/dark automatically.
+
+For `DropdownListItem`, Figma's `State` axis is not a prop: hover is a real
+`:hover` and disabled is the `disabled` prop, so the one component covers all 51
+variants. `DropdownHeader` has no `State` axis — a header is not interactive.
+
+```tsx
+<DropdownListItem type="secondary-text" leftIcon={<UserIcon />} text="First Action" secondaryText="(456)" />
+<DropdownListItem type="right-form" leftIcon={<UserIcon />} text="Notifications" onCheckedChange={setOn} />
+```
+
+Icons, avatars, badges and flags are consumer-supplied slots, mirroring the
+instance-swap properties in Figma. The exported glyphs the design uses are
+committed under `icons/` (64 glyphs: UI icons, six country flags, AI-model logos
+and an empty-state illustration). The ones the `DropdownMenu` compositions need
+are inlined in `MenuIcons.tsx` with `currentColor` so they follow the theme; the
+raw files carry the fills Figma exported, so inline them the same way if you use
+them directly.
 
 `Banner` is reproduced literally from its Figma component set, which is drawn
 light-mode; its palette is scoped to `.dfc-banner` and does not use the dark
@@ -82,6 +139,94 @@ pnpm build      # ESM + CJS + .d.ts to dist/
 ## Tokens
 
 `styles/tokens.css` holds the CSS custom properties; `src/tokens.ts` mirrors them in JS. The values shipped here are **starter values** — sync them with your Figma-mapped tokens (the set you formalized in `CLAUDE.md`) so the package stays the single source of truth for consumers.
+
+### Text (foreground) colors
+
+`tokens.css` also carries the 22 `--color-text-*` tokens ported from the Figma
+"Text color variables" spec, mirrored in JS as `textColors.light` / `textColors.dark`.
+
+These keep the spec's own naming rather than the `--dfc-*` family: CSS custom
+properties share one namespace, so every foreground token is prefixed
+`--color-text-` and the semantic color roles carry an extra `-fg` infix
+(`--color-text-fg-danger`), while the structural ones do not
+(`--color-text-heading`).
+
+Light is the base mode. Dark follows the OS preference automatically, and either
+mode can be forced on any subtree:
+
+```html
+<div data-theme="dark">…</div>   <!-- forces dark -->
+<div data-theme="light">…</div>  <!-- forces light, even when the OS is dark -->
+```
+
+Four tokens are deliberately mode-invariant: `white`, `black`, `fg-brand-subtle`
+and `fg-yellow`.
+
+### Background colors
+
+The companion set: 44 `--color-bg-*` tokens, mirrored in JS as
+`backgroundColors.light` / `backgroundColors.dark`. Same theming rules as above;
+seven are mode-invariant (`white`, `danger`, `dark`, `purple`, `sky`, `cyan`,
+`orange`).
+
+The `soft` / `medium` / `strong` shades let a surface be layered without
+per-case overrides. Several of them **share a value in light mode and only
+diverge in dark** — that is the point of the scale, not duplication:
+
+| token | light | dark |
+| --- | --- | --- |
+| `--color-bg-primary` | `#ffffff` | `#030712` |
+| `--color-bg-primary-soft` | `#ffffff` | `#101828` |
+| `--color-bg-primary-medium` | `#ffffff` | `#1e2939` |
+| `--color-bg-primary-strong` | `#ffffff` | `#333e4f` |
+
+All four are white on a light background, but give a dark-mode component four
+distinct surfaces to stack on.
+
+### Border colors
+
+24 `--color-border-*` tokens, mirrored as `borderColors.light` / `borderColors.dark`.
+Same theming rules; four are mode-invariant (`dark`, `brand-light`, `purple`,
+`orange`). As with backgrounds, the shades collapse in light and fan out in dark
+— all four `base` shades are `#e5e7eb` in light but span `#101828`–`#4a5565` in dark.
+
+> **Unverified:** the four `warning` border values. In Figma their swatches are
+> bound to the `--color-text-fg-warning*` *text* tokens rather than border
+> variables, both dark warning swatches resolve to the same `#fe9a00`, and all
+> four palette labels disagree with the rendered color. The shipped values are
+> what the spec draws, but confirm them with design before relying on them.
+
+### Data visualization — categorical
+
+14 `--color-viz-categorical-01` … `-14` tokens, mirrored as `vizCategorical.light` /
+`vizCategorical.dark` — **ordered arrays**, because the spec requires the colors be
+assigned in sequence ("carefully curated to maximize contrast between neighboring
+colors"). Index 0 is `categorical-01`. Unlike the other families these are raw fills
+in Figma, not bound variables, so the `--color-viz-*` naming is ours.
+
+```ts
+import { vizCategorical } from '@defcon/ui';
+series.forEach((s, i) => (s.color = vizCategorical.light[i])); // in order
+```
+
+Spec guidance: cap a chart at 8–10 categories (3–5 is better), never encode meaning
+in color alone, and prefer Blue/Orange/Green/Cyan for color-blind safety.
+
+> **Distinctness only holds to ~10 categories.** Closest pair by CIE76 ΔE — first 8:
+> light 35.1 / dark 27.4 (fine); first 10: light 23.0 / dark 25.1 (borderline); all 14:
+> light 7.0 / dark 0.0 (broken). Slots 11–14 are the problem: in dark, `01`/`14` and
+> `03`/`11` are exact duplicates (12 distinct colors for 14 slots); in light, `06` and
+> `13` are near-identical dark reds. Stay at or below 10 series.
+
+All four sets are **additive** — no component consumes them yet, and the `--dfc-*`
+tokens still drive every component in this library.
+
+| family | tokens | JS mirror |
+| --- | --- | --- |
+| `--color-text-*` | 22 | `textColors` |
+| `--color-bg-*` | 44 | `backgroundColors` |
+| `--color-border-*` | 24 | `borderColors` |
+| `--color-viz-categorical-*` | 14 | `vizCategorical` |
 
 ## Releasing
 

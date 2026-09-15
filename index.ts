@@ -42,8 +42,36 @@ export type { BannerProps, BannerType, BannerPosition } from './Banner';
 export { Logo, Wordmark } from './Logo';
 export type { LogoProps, WordmarkProps } from './Logo';
 
+export { Checkbox } from './Checkbox';
+export type { CheckboxProps, CheckboxVariant } from './Checkbox';
+
+export { DropdownMenu, DropdownMenuSeparator } from './DropdownMenu';
+export type { DropdownMenuProps, DropdownMenuType } from './DropdownMenu';
+
+export { DropdownHeader } from './DropdownHeader';
+export type { DropdownHeaderProps, DropdownHeaderType } from './DropdownHeader';
+
+export { DropdownListItem } from './DropdownListItem';
+export type {
+  DropdownListItemProps,
+  DropdownListItemType,
+  DropdownListItemTone,
+} from './DropdownListItem';
+
 export { Accordion, AccordionItem } from './Accordion';
 export type { AccordionProps, AccordionVariant, AccordionItemProps } from './Accordion';
 
 export { tokens } from './tokens';
 export type { Tokens } from './tokens';
+
+export { textColors, backgroundColors, borderColors, vizCategorical } from './tokens';
+export type {
+  TextColors,
+  TextColorMode,
+  TextColorName,
+  BackgroundColors,
+  BackgroundColorName,
+  BorderColors,
+  BorderColorName,
+  VizCategorical,
+} from './tokens';
