@@ -83,6 +83,94 @@ pnpm build      # ESM + CJS + .d.ts to dist/
 
 `styles/tokens.css` holds the CSS custom properties; `src/tokens.ts` mirrors them in JS. The values shipped here are **starter values** — sync them with your Figma-mapped tokens (the set you formalized in `CLAUDE.md`) so the package stays the single source of truth for consumers.
 
+### Text (foreground) colors
+
+`tokens.css` also carries the 22 `--color-text-*` tokens ported from the Figma
+"Text color variables" spec, mirrored in JS as `textColors.light` / `textColors.dark`.
+
+These keep the spec's own naming rather than the `--dfc-*` family: CSS custom
+properties share one namespace, so every foreground token is prefixed
+`--color-text-` and the semantic color roles carry an extra `-fg` infix
+(`--color-text-fg-danger`), while the structural ones do not
+(`--color-text-heading`).
+
+Light is the base mode. Dark follows the OS preference automatically, and either
+mode can be forced on any subtree:
+
+```html
+<div data-theme="dark">…</div>   <!-- forces dark -->
+<div data-theme="light">…</div>  <!-- forces light, even when the OS is dark -->
+```
+
+Four tokens are deliberately mode-invariant: `white`, `black`, `fg-brand-subtle`
+and `fg-yellow`.
+
+### Background colors
+
+The companion set: 44 `--color-bg-*` tokens, mirrored in JS as
+`backgroundColors.light` / `backgroundColors.dark`. Same theming rules as above;
+seven are mode-invariant (`white`, `danger`, `dark`, `purple`, `sky`, `cyan`,
+`orange`).
+
+The `soft` / `medium` / `strong` shades let a surface be layered without
+per-case overrides. Several of them **share a value in light mode and only
+diverge in dark** — that is the point of the scale, not duplication:
+
+| token | light | dark |
+| --- | --- | --- |
+| `--color-bg-primary` | `#ffffff` | `#030712` |
+| `--color-bg-primary-soft` | `#ffffff` | `#101828` |
+| `--color-bg-primary-medium` | `#ffffff` | `#1e2939` |
+| `--color-bg-primary-strong` | `#ffffff` | `#333e4f` |
+
+All four are white on a light background, but give a dark-mode component four
+distinct surfaces to stack on.
+
+### Border colors
+
+24 `--color-border-*` tokens, mirrored as `borderColors.light` / `borderColors.dark`.
+Same theming rules; four are mode-invariant (`dark`, `brand-light`, `purple`,
+`orange`). As with backgrounds, the shades collapse in light and fan out in dark
+— all four `base` shades are `#e5e7eb` in light but span `#101828`–`#4a5565` in dark.
+
+> **Unverified:** the four `warning` border values. In Figma their swatches are
+> bound to the `--color-text-fg-warning*` *text* tokens rather than border
+> variables, both dark warning swatches resolve to the same `#fe9a00`, and all
+> four palette labels disagree with the rendered color. The shipped values are
+> what the spec draws, but confirm them with design before relying on them.
+
+### Data visualization — categorical
+
+14 `--color-viz-categorical-01` … `-14` tokens, mirrored as `vizCategorical.light` /
+`vizCategorical.dark` — **ordered arrays**, because the spec requires the colors be
+assigned in sequence ("carefully curated to maximize contrast between neighboring
+colors"). Index 0 is `categorical-01`. Unlike the other families these are raw fills
+in Figma, not bound variables, so the `--color-viz-*` naming is ours.
+
+```ts
+import { vizCategorical } from '@defcon/ui';
+series.forEach((s, i) => (s.color = vizCategorical.light[i])); // in order
+```
+
+Spec guidance: cap a chart at 8–10 categories (3–5 is better), never encode meaning
+in color alone, and prefer Blue/Orange/Green/Cyan for color-blind safety.
+
+> **Distinctness only holds to ~10 categories.** Closest pair by CIE76 ΔE — first 8:
+> light 35.1 / dark 27.4 (fine); first 10: light 23.0 / dark 25.1 (borderline); all 14:
+> light 7.0 / dark 0.0 (broken). Slots 11–14 are the problem: in dark, `01`/`14` and
+> `03`/`11` are exact duplicates (12 distinct colors for 14 slots); in light, `06` and
+> `13` are near-identical dark reds. Stay at or below 10 series.
+
+All four sets are **additive** — no component consumes them yet, and the `--dfc-*`
+tokens still drive every component in this library.
+
+| family | tokens | JS mirror |
+| --- | --- | --- |
+| `--color-text-*` | 22 | `textColors` |
+| `--color-bg-*` | 44 | `backgroundColors` |
+| `--color-border-*` | 24 | `borderColors` |
+| `--color-viz-categorical-*` | 14 | `vizCategorical` |
+
 ## Releasing
 
 Publishing runs through Changesets + GitHub Actions:

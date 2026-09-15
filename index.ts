@@ -47,3 +47,15 @@ export type { AccordionProps, AccordionVariant, AccordionItemProps } from './Acc
 
 export { tokens } from './tokens';
 export type { Tokens } from './tokens';
+
+export { textColors, backgroundColors, borderColors, vizCategorical } from './tokens';
+export type {
+  TextColors,
+  TextColorMode,
+  TextColorName,
+  BackgroundColors,
+  BackgroundColorName,
+  BorderColors,
+  BorderColorName,
+  VizCategorical,
+} from './tokens';
