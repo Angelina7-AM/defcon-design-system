@@ -43,6 +43,126 @@
   color: var(--dfc-text-primary);
 }
 
+/* --- Button: Figma reconciliation additions --- */
+
+/* New sizes (xs, xl) alongside existing sm/md/lg */
+.dfc-button--xs { font-size: 12px; padding: 6px 12px; }
+.dfc-button--xl { font-size: 16px; padding: 14px 24px; }
+
+/* New color variants — map 1:1 to Figma's Success/Danger/Warning/Dark/Tertiary.
+   Uses existing --dfc-danger/--dfc-success/--dfc-warning status tokens. */
+.dfc-button--success {
+  background: var(--dfc-success);
+  color: var(--dfc-accent-contrast);
+}
+.dfc-button--success:hover:not(:disabled) { filter: brightness(1.08); }
+.dfc-button--success:active:not(:disabled) { filter: brightness(0.92); }
+
+.dfc-button--danger {
+  background: var(--dfc-danger);
+  color: var(--dfc-accent-contrast);
+}
+.dfc-button--danger:hover:not(:disabled) { filter: brightness(1.08); }
+.dfc-button--danger:active:not(:disabled) { filter: brightness(0.92); }
+
+.dfc-button--warning {
+  background: var(--dfc-warning);
+  color: var(--dfc-accent-contrast);
+}
+.dfc-button--warning:hover:not(:disabled) { filter: brightness(1.08); }
+.dfc-button--warning:active:not(:disabled) { filter: brightness(0.92); }
+
+/* "Dark" and "Tertiary" have no existing token equivalent — see gaps noted in
+   README. Falling back to existing surface tokens as a reasonable
+   approximation until dedicated tokens land. */
+.dfc-button--dark {
+  background: var(--dfc-surface-0);
+  color: var(--dfc-text-primary);
+  border-color: var(--dfc-border-strong);
+}
+.dfc-button--dark:hover:not(:disabled) { background: var(--dfc-surface-1); }
+
+.dfc-button--tertiary {
+  background: var(--dfc-surface-2);
+  color: var(--dfc-text-primary);
+}
+.dfc-button--tertiary:hover:not(:disabled) { background: var(--dfc-surface-3); }
+
+/* Outline modifier — transparent fill, colored border + text, per variant.
+   Pairs with any color variant class above (e.g. dfc-button--danger.dfc-button--outline). */
+.dfc-button--outline {
+  background: transparent;
+}
+.dfc-button--primary.dfc-button--outline {
+  color: var(--dfc-accent);
+  border-color: var(--dfc-accent);
+}
+.dfc-button--primary.dfc-button--outline:hover:not(:disabled) { background: var(--dfc-surface-1); }
+
+.dfc-button--secondary.dfc-button--outline {
+  color: var(--dfc-text-primary);
+  border-color: var(--dfc-border-strong);
+}
+
+.dfc-button--success.dfc-button--outline { color: var(--dfc-success); border-color: var(--dfc-success); }
+.dfc-button--danger.dfc-button--outline { color: var(--dfc-danger); border-color: var(--dfc-danger); }
+.dfc-button--warning.dfc-button--outline { color: var(--dfc-warning); border-color: var(--dfc-warning); }
+.dfc-button--dark.dfc-button--outline { color: var(--dfc-text-primary); border-color: var(--dfc-border-strong); }
+.dfc-button--tertiary.dfc-button--outline { color: var(--dfc-text-secondary); border-color: var(--dfc-border-subtle); }
+.dfc-button--ghost.dfc-button--outline { color: var(--dfc-text-secondary); border-color: var(--dfc-border-subtle); }
+
+.dfc-button--outline:hover:not(:disabled) {
+  background: var(--dfc-surface-1);
+}
+
+/* Icon-only modifier — equal padding, square aspect, no label gap */
+.dfc-button--icon-only {
+  padding: 0;
+  gap: 0;
+  aspect-ratio: 1 / 1;
+}
+.dfc-button--icon-only.dfc-button--xs { width: 32px; height: 32px; }
+.dfc-button--icon-only.dfc-button--sm { width: 36px; height: 36px; }
+.dfc-button--icon-only.dfc-button--md { width: 40px; height: 40px; }
+.dfc-button--icon-only.dfc-button--lg { width: 44px; height: 44px; }
+.dfc-button--icon-only.dfc-button--xl { width: 48px; height: 48px; }
+
+/* Loading modifier + inline CSS spinner (no icon asset — intrinsic state) */
+.dfc-button--loading {
+  position: relative;
+  color: transparent;
+  pointer-events: none;
+}
+.dfc-button__spinner {
+  position: absolute;
+  inset: 0;
+  margin: auto;
+  width: 1em;
+  height: 1em;
+  font-size: inherit;
+  border: 2px solid currentColor;
+  border-top-color: transparent;
+  border-radius: 50%;
+  color: inherit;
+  opacity: 0.85;
+  animation: dfc-button-spin 0.6s linear infinite;
+}
+/* currentColor above is transparent (inherited from .dfc-button--loading), so
+   the spinner needs its own visible color layered on top: */
+.dfc-button--loading .dfc-button__spinner {
+  color: var(--dfc-text-primary);
+}
+.dfc-button--primary.dfc-button--loading .dfc-button__spinner,
+.dfc-button--success.dfc-button--loading .dfc-button__spinner,
+.dfc-button--danger.dfc-button--loading .dfc-button__spinner,
+.dfc-button--warning.dfc-button--loading .dfc-button__spinner {
+  color: var(--dfc-accent-contrast);
+}
+
+@keyframes dfc-button-spin {
+  to { transform: rotate(360deg); }
+}
+
 /* Surface */
 .dfc-surface {
   background: var(--dfc-surface-1);
@@ -62,4 +182,2210 @@
   letter-spacing: 0.08em;
   text-transform: uppercase;
   color: var(--dfc-text-muted);
+}
+
+/* Badge */
+.dfc-badge {
+  font-family: var(--dfc-font-sans);
+  font-weight: 500;
+  line-height: 1.35;
+  border: 1px solid transparent;
+  border-radius: var(--dfc-radius-sm);
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  white-space: nowrap;
+  vertical-align: middle;
+}
+
+.dfc-badge--sm {
+  gap: var(--dfc-space-1);
+  padding: 2px var(--dfc-space-1);
+  font-size: 12px;
+}
+.dfc-badge--lg {
+  gap: 6px;
+  padding: var(--dfc-space-1) 6px;
+  font-size: 14px;
+}
+
+.dfc-badge--icon-only.dfc-badge--sm { padding: 4px; }
+.dfc-badge--icon-only.dfc-badge--lg { padding: 5px; }
+
+.dfc-badge__icon {
+  flex-shrink: 0;
+  display: inline-flex;
+  width: 12px;
+  height: 12px;
+}
+.dfc-badge--lg .dfc-badge__icon { width: 14px; height: 14px; }
+
+.dfc-badge__dot {
+  flex-shrink: 0;
+  width: 6px;
+  height: 6px;
+  border-radius: 9999px;
+  background: currentColor;
+}
+
+.dfc-badge__label {
+  overflow-wrap: break-word;
+}
+
+.dfc-badge__secondary {
+  font-weight: 400;
+  color: var(--dfc-text-secondary);
+}
+
+.dfc-badge__separator {
+  width: 1px;
+  align-self: stretch;
+  background: currentColor;
+  opacity: 0.25;
+}
+
+.dfc-badge__dismiss {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+  width: 12px;
+  height: 12px;
+  padding: 0;
+  margin: 0;
+  border: none;
+  background: transparent;
+  color: inherit;
+  opacity: 0.7;
+  cursor: pointer;
+  transition: opacity 120ms ease;
+}
+.dfc-badge--lg .dfc-badge__dismiss { width: 14px; height: 14px; }
+.dfc-badge__dismiss:hover { opacity: 1; }
+
+.dfc-badge__loader {
+  animation: dfc-badge-spin 0.9s linear infinite;
+}
+@keyframes dfc-badge-spin {
+  to { transform: rotate(360deg); }
+}
+
+/* Variants — soft tinted background derived from the status color, mixed
+   into the surrounding surface so it reads correctly on the dark base. */
+.dfc-badge--neutral {
+  background: var(--dfc-surface-2);
+  border-color: var(--dfc-border-strong);
+  color: var(--dfc-text-primary);
+}
+
+.dfc-badge--subtle {
+  background: var(--dfc-surface-1);
+  border-color: var(--dfc-border-subtle);
+  color: var(--dfc-text-primary);
+}
+
+.dfc-badge--accent {
+  background: color-mix(in srgb, var(--dfc-accent) 16%, var(--dfc-surface-1));
+  border-color: color-mix(in srgb, var(--dfc-accent) 40%, var(--dfc-surface-1));
+  color: var(--dfc-accent);
+}
+
+.dfc-badge--danger {
+  background: color-mix(in srgb, var(--dfc-danger) 16%, var(--dfc-surface-1));
+  border-color: color-mix(in srgb, var(--dfc-danger) 40%, var(--dfc-surface-1));
+  color: var(--dfc-danger);
+}
+
+.dfc-badge--warning {
+  background: color-mix(in srgb, var(--dfc-warning) 16%, var(--dfc-surface-1));
+  border-color: color-mix(in srgb, var(--dfc-warning) 40%, var(--dfc-surface-1));
+  color: var(--dfc-warning);
+}
+
+.dfc-badge--success {
+  background: color-mix(in srgb, var(--dfc-success) 16%, var(--dfc-surface-1));
+  border-color: color-mix(in srgb, var(--dfc-success) 40%, var(--dfc-surface-1));
+  color: var(--dfc-success);
+}
+
+/* Avatar */
+.dfc-avatar {
+  position: relative;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+  border-radius: 9999px;
+  background: var(--dfc-surface-2);
+  color: var(--dfc-text-secondary);
+  overflow: hidden;
+  font-family: var(--dfc-font-sans);
+  font-weight: 500;
+  line-height: 1;
+  user-select: none;
+}
+
+.dfc-avatar__image {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  pointer-events: none;
+}
+
+.dfc-avatar__fallback {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  text-transform: uppercase;
+  white-space: nowrap;
+}
+
+/* Sizes — px scale taken from Figma's Avatar Size variant axis. */
+.dfc-avatar--xs { width: 18px; height: 18px; font-size: 8px; }
+.dfc-avatar--sm { width: 24px; height: 24px; font-size: 10px; }
+.dfc-avatar--base { width: 32px; height: 32px; font-size: 12px; }
+.dfc-avatar--lg { width: 44px; height: 44px; font-size: 14px; }
+.dfc-avatar--xl { width: 56px; height: 56px; font-size: 16px; }
+.dfc-avatar--2xl { width: 64px; height: 64px; font-size: 18px; }
+
+/* Status dot — size/position scale with the avatar size. */
+.dfc-avatar__dot {
+  position: absolute;
+  right: 0;
+  bottom: 0;
+  border-radius: 9999px;
+  border: 2px solid var(--dfc-surface-1);
+  box-sizing: content-box;
+}
+.dfc-avatar--xs .dfc-avatar__dot,
+.dfc-avatar--sm .dfc-avatar__dot { width: 6px; height: 6px; border-width: 1px; }
+.dfc-avatar--base .dfc-avatar__dot { width: 8px; height: 8px; }
+.dfc-avatar--lg .dfc-avatar__dot { width: 10px; height: 10px; }
+.dfc-avatar--xl .dfc-avatar__dot,
+.dfc-avatar--2xl .dfc-avatar__dot { width: 12px; height: 12px; }
+
+.dfc-avatar__dot--online { background: var(--dfc-success); }
+.dfc-avatar__dot--busy { background: var(--dfc-danger); }
+.dfc-avatar__dot--away { background: var(--dfc-warning); }
+.dfc-avatar__dot--offline { background: var(--dfc-text-muted); }
+
+/* Remove button */
+.dfc-avatar__remove {
+  position: absolute;
+  top: -2px;
+  right: -2px;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 20px;
+  height: 20px;
+  padding: 0;
+  border: 2px solid var(--dfc-surface-1);
+  border-radius: 9999px;
+  background: var(--dfc-surface-3);
+  color: var(--dfc-text-secondary);
+  cursor: pointer;
+  transition: background-color 120ms ease, color 120ms ease;
+}
+.dfc-avatar__remove:hover { background: var(--dfc-border-strong); color: var(--dfc-text-primary); }
+.dfc-avatar__remove-icon { display: block; width: 10px; height: 10px; }
+
+/* AvatarGroup — overlapping stack */
+.dfc-avatar-group {
+  display: inline-flex;
+  align-items: center;
+}
+.dfc-avatar-group__item {
+  border: 2px solid var(--dfc-surface-1);
+}
+.dfc-avatar-group__item:not(:first-child) {
+  margin-left: -10px;
+}
+.dfc-avatar-group--sm .dfc-avatar-group__item:not(:first-child) { margin-left: -8px; }
+.dfc-avatar-group--lg .dfc-avatar-group__item:not(:first-child) { margin-left: -12px; }
+
+.dfc-avatar-group__counter {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: 9999px;
+  background: var(--dfc-surface-2);
+  color: var(--dfc-text-secondary);
+  font-family: var(--dfc-font-sans);
+  font-weight: 500;
+}
+.dfc-avatar-group--sm .dfc-avatar-group__counter { width: 24px; height: 24px; font-size: 10px; }
+.dfc-avatar-group--base .dfc-avatar-group__counter { width: 32px; height: 32px; font-size: 12px; }
+.dfc-avatar-group--lg .dfc-avatar-group__counter { width: 44px; height: 44px; font-size: 14px; }
+
+/* AvatarGroupLabel — avatar + name/helper text */
+.dfc-avatar-group-label {
+  display: inline-flex;
+  align-items: center;
+  gap: var(--dfc-space-2);
+}
+.dfc-avatar-group-label__text {
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+  line-height: 1.2;
+}
+.dfc-avatar-group-label__name {
+  font-family: var(--dfc-font-sans);
+  font-weight: 500;
+  color: var(--dfc-text-primary);
+}
+.dfc-avatar-group-label__helper {
+  font-family: var(--dfc-font-sans);
+  color: var(--dfc-text-secondary);
+}
+.dfc-avatar-group-label--sm .dfc-avatar-group-label__name { font-size: 12px; }
+.dfc-avatar-group-label--sm .dfc-avatar-group-label__helper { font-size: 11px; }
+.dfc-avatar-group-label--base .dfc-avatar-group-label__name { font-size: 14px; }
+.dfc-avatar-group-label--base .dfc-avatar-group-label__helper { font-size: 12px; }
+.dfc-avatar-group-label--lg .dfc-avatar-group-label__name,
+.dfc-avatar-group-label--xl .dfc-avatar-group-label__name { font-size: 16px; }
+.dfc-avatar-group-label--lg .dfc-avatar-group-label__helper,
+.dfc-avatar-group-label--xl .dfc-avatar-group-label__helper { font-size: 14px; }
+
+/* Breadcrumb */
+.dfc-breadcrumb {
+  font-family: var(--dfc-font-sans);
+}
+
+.dfc-breadcrumb__list {
+  display: flex;
+  align-items: center;
+  flex-wrap: wrap;
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  gap: var(--dfc-space-1);
+}
+.dfc-breadcrumb__list--sm { font-size: 13px; }
+.dfc-breadcrumb__list--md { font-size: 14px; }
+
+.dfc-breadcrumb-item {
+  display: inline-flex;
+  align-items: center;
+  gap: var(--dfc-space-2);
+}
+
+.dfc-breadcrumb-item__label {
+  color: var(--dfc-text-secondary);
+  text-decoration: none;
+  font-weight: 500;
+  line-height: 20px;
+  transition: color 120ms ease;
+}
+a.dfc-breadcrumb-item__label:hover {
+  color: var(--dfc-text-primary);
+}
+a.dfc-breadcrumb-item__label:focus-visible {
+  outline: 2px solid var(--dfc-accent);
+  outline-offset: 2px;
+  border-radius: var(--dfc-radius-sm);
+}
+
+.dfc-breadcrumb-item--current .dfc-breadcrumb-item__label {
+  color: var(--dfc-text-muted);
+}
+
+.dfc-breadcrumb-item__separator-icon {
+  color: var(--dfc-text-muted);
+  flex-shrink: 0;
+}
+
+/* Card */
+.dfc-card {
+  display: flex;
+  flex-direction: column;
+  gap: var(--dfc-space-6);
+  background: var(--dfc-surface-1);
+  border: 1px solid var(--dfc-border-subtle);
+  border-radius: var(--dfc-radius-lg);
+  padding: var(--dfc-space-6);
+  overflow: hidden;
+}
+
+.dfc-card--horizontal {
+  flex-direction: row;
+  align-items: flex-start;
+}
+
+.dfc-card__media {
+  flex-shrink: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  overflow: hidden;
+  border-radius: var(--dfc-radius-md);
+  background: var(--dfc-surface-2);
+}
+.dfc-card--vertical .dfc-card__media { width: 100%; }
+.dfc-card--horizontal .dfc-card__media { width: 192px; align-self: stretch; }
+.dfc-card__media img { display: block; width: 100%; height: 100%; object-fit: cover; }
+
+.dfc-card__content {
+  display: flex;
+  flex-direction: column;
+  gap: var(--dfc-space-6);
+  flex: 1 1 0%;
+  min-width: 0;
+}
+
+.dfc-card__header {
+  display: flex;
+  flex-direction: column;
+  gap: var(--dfc-space-3);
+}
+
+.dfc-card__body {
+  color: var(--dfc-text-secondary);
+  font-family: var(--dfc-font-sans);
+  font-size: 16px;
+  line-height: 24px;
+}
+
+.dfc-card__body--scrollable {
+  overflow-y: auto;
+  overflow-x: hidden;
+  scrollbar-width: thin;
+  scrollbar-color: var(--dfc-accent) var(--dfc-surface-2);
+}
+.dfc-card__body--scrollable::-webkit-scrollbar { width: 8px; }
+.dfc-card__body--scrollable::-webkit-scrollbar-track { background: var(--dfc-surface-2); border-radius: var(--dfc-radius-sm); }
+.dfc-card__body--scrollable::-webkit-scrollbar-thumb { background: var(--dfc-accent); border-radius: var(--dfc-radius-sm); }
+.dfc-card__body--scrollable::-webkit-scrollbar-thumb:hover { background: var(--dfc-accent-hover); }
+
+.dfc-card__footer {
+  display: flex;
+  align-items: center;
+  gap: var(--dfc-space-2);
+}
+
+/* CardStatus */
+.dfc-card-status {
+  display: inline-flex;
+  align-items: center;
+  gap: var(--dfc-space-1);
+  font-family: var(--dfc-font-sans);
+  font-size: 14px;
+  font-weight: 500;
+  color: var(--dfc-text-secondary);
+}
+
+.dfc-card-status__dot {
+  flex-shrink: 0;
+  width: 8px;
+  height: 8px;
+  border-radius: 50%;
+}
+.dfc-card-status__dot--neutral { background: var(--dfc-text-muted); }
+.dfc-card-status__dot--accent { background: var(--dfc-accent); }
+.dfc-card-status__dot--success { background: var(--dfc-success); }
+.dfc-card-status__dot--danger { background: var(--dfc-danger); }
+.dfc-card-status__dot--warning { background: var(--dfc-warning); }
+
+/* CardRow */
+.dfc-card-row {
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+  width: 100%;
+  gap: var(--dfc-space-4);
+  padding: var(--dfc-space-2) var(--dfc-space-4);
+  background: var(--dfc-surface-2);
+  border-left: 4px solid var(--dfc-accent);
+  border-radius: var(--dfc-radius-md);
+}
+
+.dfc-card-row__title {
+  display: flex;
+  flex-direction: column;
+  gap: var(--dfc-space-1);
+  flex-shrink: 0;
+  padding-right: var(--dfc-space-6);
+  border-right: 1px solid var(--dfc-border-subtle);
+}
+
+.dfc-card-row__heading {
+  display: flex;
+  align-items: center;
+  gap: var(--dfc-space-1);
+}
+
+.dfc-card-row__icon {
+  display: inline-flex;
+  flex-shrink: 0;
+  width: 16px;
+  height: 16px;
+  color: var(--dfc-text-secondary);
+}
+
+.dfc-card-row__heading-text {
+  margin: 0;
+  font-family: var(--dfc-font-sans);
+  font-size: 14px;
+  font-weight: 700;
+  color: var(--dfc-text-primary);
+  white-space: nowrap;
+}
+
+.dfc-card-row__subtext {
+  margin: 0;
+  font-family: var(--dfc-font-sans);
+  font-size: 14px;
+  font-weight: 500;
+  color: var(--dfc-text-secondary);
+  white-space: nowrap;
+}
+
+.dfc-card-row__stats {
+  display: flex;
+  flex: 1 1 0%;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: space-between;
+  row-gap: var(--dfc-space-6);
+  min-width: 0;
+}
+
+.dfc-card-row__stat {
+  display: flex;
+  flex-direction: column;
+  gap: var(--dfc-space-1);
+  padding: 0 var(--dfc-space-6);
+}
+
+.dfc-card-row__stat-value {
+  margin: 0;
+  font-family: var(--dfc-font-sans);
+  font-size: 14px;
+  font-weight: 600;
+  color: var(--dfc-text-primary);
+}
+
+.dfc-card-row__stat-subtext {
+  margin: 0;
+  font-family: var(--dfc-font-sans);
+  font-size: 14px;
+  font-weight: 500;
+  color: var(--dfc-text-secondary);
+}
+
+.dfc-card-row__end {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: flex-end;
+  gap: var(--dfc-space-1);
+  flex-shrink: 0;
+  padding-left: var(--dfc-space-6);
+  border-left: 1px solid var(--dfc-border-subtle);
+}
+
+.dfc-card-row__end-label {
+  margin: 0;
+  font-family: var(--dfc-font-sans);
+  font-size: 14px;
+  font-weight: 600;
+  color: var(--dfc-text-primary);
+  white-space: nowrap;
+}
+
+/* Alert */
+.dfc-alert {
+  position: relative;
+  display: flex;
+  align-items: flex-start;
+  gap: var(--dfc-space-2);
+  font-family: var(--dfc-font-sans);
+  border: 1px solid transparent;
+  border-radius: var(--dfc-radius-md);
+  padding: var(--dfc-space-4);
+}
+
+.dfc-alert--complex {
+  align-items: flex-start;
+}
+.dfc-alert:not(.dfc-alert--complex) {
+  align-items: center;
+}
+
+.dfc-alert__icon-slot {
+  flex-shrink: 0;
+  display: inline-flex;
+  width: 16px;
+  height: 16px;
+  margin-top: 2px;
+}
+.dfc-alert:not(.dfc-alert--complex) .dfc-alert__icon-slot {
+  margin-top: 0;
+}
+
+.dfc-alert__icon {
+  display: block;
+  width: 100%;
+  height: 100%;
+}
+
+.dfc-alert__content {
+  display: flex;
+  flex-direction: column;
+  gap: var(--dfc-space-1);
+  flex: 1 1 0%;
+  min-width: 0;
+}
+
+.dfc-alert__title {
+  font-weight: 500;
+  font-size: 16px;
+  line-height: var(--dfc-space-4);
+}
+
+.dfc-alert__body {
+  font-size: 14px;
+  line-height: 20px;
+  overflow-wrap: break-word;
+}
+
+.dfc-alert__dismiss {
+  flex-shrink: 0;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 16px;
+  height: 16px;
+  margin-top: 2px;
+  padding: 0;
+  border: none;
+  background: transparent;
+  color: inherit;
+  opacity: 0.7;
+  cursor: pointer;
+  transition: opacity 120ms ease;
+}
+.dfc-alert:not(.dfc-alert--complex) .dfc-alert__dismiss {
+  margin-top: 0;
+}
+.dfc-alert__dismiss:hover { opacity: 1; }
+
+.dfc-alert--neutral {
+  background: var(--dfc-surface-2);
+  border-color: var(--dfc-border-strong);
+  color: var(--dfc-text-primary);
+}
+.dfc-alert--neutral .dfc-alert__icon-slot,
+.dfc-alert--neutral .dfc-alert__dismiss {
+  color: var(--dfc-text-secondary);
+}
+
+.dfc-alert--info {
+  background: color-mix(in srgb, var(--dfc-accent) 12%, var(--dfc-surface-1));
+  border-color: color-mix(in srgb, var(--dfc-accent) 35%, var(--dfc-surface-1));
+  color: var(--dfc-text-primary);
+}
+.dfc-alert--info .dfc-alert__icon-slot,
+.dfc-alert--info .dfc-alert__title,
+.dfc-alert--info .dfc-alert__dismiss {
+  color: var(--dfc-accent);
+}
+
+.dfc-alert--success {
+  background: color-mix(in srgb, var(--dfc-success) 16%, var(--dfc-surface-1));
+  border-color: color-mix(in srgb, var(--dfc-success) 40%, var(--dfc-surface-1));
+  color: var(--dfc-text-primary);
+}
+.dfc-alert--success .dfc-alert__icon-slot,
+.dfc-alert--success .dfc-alert__title,
+.dfc-alert--success .dfc-alert__dismiss {
+  color: var(--dfc-success);
+}
+
+.dfc-alert--warning {
+  background: color-mix(in srgb, var(--dfc-warning) 16%, var(--dfc-surface-1));
+  border-color: color-mix(in srgb, var(--dfc-warning) 40%, var(--dfc-surface-1));
+  color: var(--dfc-text-primary);
+}
+.dfc-alert--warning .dfc-alert__icon-slot,
+.dfc-alert--warning .dfc-alert__title,
+.dfc-alert--warning .dfc-alert__dismiss {
+  color: var(--dfc-warning);
+}
+
+.dfc-alert--danger {
+  background: color-mix(in srgb, var(--dfc-danger) 16%, var(--dfc-surface-1));
+  border-color: color-mix(in srgb, var(--dfc-danger) 40%, var(--dfc-surface-1));
+  color: var(--dfc-text-primary);
+}
+.dfc-alert--danger .dfc-alert__icon-slot,
+.dfc-alert--danger .dfc-alert__title,
+.dfc-alert--danger .dfc-alert__dismiss {
+  color: var(--dfc-danger);
+}
+
+.dfc-alert--accent {
+  border-top-width: 4px;
+}
+.dfc-alert--accent.dfc-alert--neutral { border-top-color: var(--dfc-border-strong); }
+.dfc-alert--accent.dfc-alert--info { border-top-color: var(--dfc-accent); }
+.dfc-alert--accent.dfc-alert--success { border-top-color: var(--dfc-success); }
+.dfc-alert--accent.dfc-alert--warning { border-top-color: var(--dfc-warning); }
+.dfc-alert--accent.dfc-alert--danger { border-top-color: var(--dfc-danger); }
+
+/* Logo */
+.dfc-logo {
+  position: relative;
+  display: inline-block;
+}
+
+/* Banner
+ *
+ * Mirrors the Figma "Banner" component set (node 1146:21254). Unlike the
+ * rest of this library, Banner is drawn light-mode in Figma and is
+ * reproduced literally: the palette below is the set of raw values the
+ * design uses, scoped to .dfc-banner so it never leaks into the dark
+ * --dfc-* brand tokens. Spacing/radius still come from the brand tokens
+ * where Figma's value and ours agree.
+ *
+ * Figma's Breakpoint axis (Desktop/Tablet/Mobile, drawn at 1280/768/380)
+ * is responsive behavior, not a prop — it lives in the media queries at
+ * the end of this block. Widths are 100% here; the fixed artboard widths
+ * are a Figma framing device.
+ */
+.dfc-banner {
+  --dfc-banner-surface: #ffffff;
+  --dfc-banner-border: #e5e7eb;
+  --dfc-banner-text: #4a5565;
+  --dfc-banner-heading: #101828;
+  --dfc-banner-link: #1447e6;
+  --dfc-banner-chip-bg: #f3f4f6;
+  --dfc-banner-chip-brand-bg: #eef6ff;
+  --dfc-banner-field-bg: #f9fafb;
+  --dfc-banner-placeholder: #6a7282;
+  --dfc-banner-required: #c70036;
+  --dfc-banner-shadow: 0 1px 0.25px rgba(29, 41, 61, 0.02);
+
+  box-sizing: border-box;
+  display: flex;
+  align-items: center;
+  gap: var(--dfc-space-4);
+  width: 100%;
+  padding: var(--dfc-space-4);
+  font-family: var(--dfc-font-sans);
+  font-size: 14px;
+  line-height: 20px;
+  background: var(--dfc-banner-surface);
+  border-bottom: 1px solid var(--dfc-banner-border);
+  color: var(--dfc-banner-text);
+}
+.dfc-banner *,
+.dfc-banner *::before,
+.dfc-banner *::after {
+  box-sizing: border-box;
+}
+.dfc-banner p {
+  margin: 0;
+  overflow-wrap: break-word;
+}
+
+.dfc-banner--fixed-top {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  z-index: 50;
+}
+.dfc-banner--fixed-bottom {
+  position: fixed;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  z-index: 50;
+}
+
+/* Classification markings — prescribed colors, not themeable.
+   Figma draws Unclassified's tablet/mobile border as the neutral
+   #e5e7eb while its desktop border is #d0fae5; the tinted border is
+   used at every breakpoint here, matching the other five markings. */
+.dfc-banner--unclassified {
+  --dfc-banner-surface: #006045;
+  --dfc-banner-border: #d0fae5;
+  --dfc-banner-text: #ffffff;
+}
+.dfc-banner--controlled-cui {
+  --dfc-banner-surface: #3c0366;
+  --dfc-banner-border: #f3e8ff;
+  --dfc-banner-text: #ffffff;
+}
+.dfc-banner--confidential {
+  --dfc-banner-surface: #1c398e;
+  --dfc-banner-border: #dbeafe;
+  --dfc-banner-text: #ffffff;
+}
+.dfc-banner--secret {
+  --dfc-banner-surface: #82181a;
+  --dfc-banner-border: #ffe2e2;
+  --dfc-banner-text: #ffffff;
+}
+.dfc-banner--top-secret {
+  --dfc-banner-surface: #fe9a00;
+  --dfc-banner-border: #fef3c6;
+  --dfc-banner-text: #030712;
+}
+.dfc-banner--top-secret-sci {
+  --dfc-banner-surface: #ffdf20;
+  --dfc-banner-border: #fef9c2;
+  --dfc-banner-text: #030712;
+}
+
+/* Leading glyph chip */
+.dfc-banner__chip {
+  flex-shrink: 0;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 24px;
+  height: 24px;
+  border-radius: 9999px;
+  background: var(--dfc-banner-chip-bg);
+  color: #4a5565;
+}
+.dfc-banner__chip--square {
+  width: 16px;
+  height: 16px;
+  border-radius: var(--dfc-radius-sm);
+  background: var(--dfc-banner-chip-brand-bg);
+  color: var(--dfc-banner-link);
+}
+.dfc-banner__glyph {
+  display: block;
+  flex-shrink: 0;
+}
+
+/* default */
+.dfc-banner__marking,
+.dfc-banner__lead {
+  flex: 1 1 0;
+  min-width: 0;
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+.dfc-banner__lead {
+  justify-content: center;
+}
+.dfc-banner__text {
+  color: var(--dfc-banner-text);
+}
+.dfc-banner__marking-label {
+  color: var(--dfc-banner-text);
+}
+.dfc-banner a {
+  color: var(--dfc-banner-link);
+  text-decoration: underline;
+}
+
+/* icon & link */
+.dfc-banner__text-link {
+  flex: 1 1 0;
+  min-width: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 6px;
+}
+.dfc-banner__text-link-lead {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+}
+.dfc-banner__link {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 6px;
+  flex-shrink: 0;
+  font-weight: 500;
+  color: var(--dfc-banner-link);
+  text-decoration: underline;
+}
+.dfc-banner__link-arrow {
+  display: block;
+  flex-shrink: 0;
+}
+
+/* heading & description */
+.dfc-banner__copy {
+  flex: 1 1 0;
+  min-width: 0;
+  display: flex;
+  align-items: center;
+  gap: var(--dfc-space-4);
+}
+.dfc-banner__copy-text {
+  flex: 1 1 0;
+  min-width: 0;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  gap: var(--dfc-space-1);
+}
+.dfc-banner__heading {
+  font-size: 18px;
+  line-height: 24px;
+  font-weight: 500;
+  color: var(--dfc-banner-heading);
+}
+.dfc-banner__description {
+  font-size: 14px;
+  line-height: 20px;
+  color: var(--dfc-banner-text);
+}
+
+/* newsletter */
+.dfc-banner__form {
+  flex: 1 1 0;
+  min-width: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: var(--dfc-space-4);
+}
+.dfc-banner__field {
+  display: flex;
+  align-items: center;
+  gap: var(--dfc-space-4);
+  width: 448px;
+  max-width: 100%;
+}
+.dfc-banner__field-label {
+  display: inline-flex;
+  align-items: center;
+  gap: var(--dfc-space-1);
+  flex-shrink: 0;
+  font-size: 14px;
+  line-height: 20px;
+  font-weight: 500;
+  white-space: nowrap;
+  color: var(--dfc-banner-heading);
+}
+.dfc-banner__field-required {
+  color: var(--dfc-banner-required);
+}
+.dfc-banner__hint {
+  display: inline-flex;
+  color: var(--dfc-banner-heading);
+}
+.dfc-banner__hint-glyph,
+.dfc-banner__field-glyph {
+  display: block;
+  flex-shrink: 0;
+}
+.dfc-banner__field-control {
+  flex: 1 1 0;
+  min-width: 0;
+  display: flex;
+  align-items: center;
+  gap: var(--dfc-space-2);
+  padding: var(--dfc-space-2) 10px;
+  background: var(--dfc-banner-field-bg);
+  border: 1px solid var(--dfc-banner-border);
+  border-radius: var(--dfc-radius-lg);
+  box-shadow: var(--dfc-banner-shadow);
+  color: var(--dfc-banner-placeholder);
+}
+.dfc-banner__input {
+  flex: 1 1 0;
+  min-width: 0;
+  padding: 0;
+  border: none;
+  background: transparent;
+  font: inherit;
+  font-size: 14px;
+  line-height: 20px;
+  color: var(--dfc-banner-heading);
+}
+.dfc-banner__input::placeholder {
+  color: var(--dfc-banner-placeholder);
+}
+.dfc-banner__input:focus {
+  outline: none;
+}
+.dfc-banner__field-control:focus-within {
+  border-color: var(--dfc-banner-link);
+}
+
+/* logo + button */
+.dfc-banner--logo-button {
+  justify-content: space-between;
+  border: 1px solid var(--dfc-banner-border);
+  border-radius: var(--dfc-radius-lg);
+  box-shadow: var(--dfc-banner-shadow);
+}
+.dfc-banner__brand {
+  flex: 1 1 0;
+  min-width: 0;
+  display: flex;
+  align-items: center;
+  gap: var(--dfc-space-4);
+}
+.dfc-banner__wordmark {
+  display: block;
+  flex-shrink: 0;
+}
+/* The 24px mark replaces the wordmark below the desktop breakpoint.
+   Both are rendered and toggled here so there is no layout-dependent
+   JS and no SSR/client mismatch. */
+.dfc-banner--logo-button .dfc-banner__mark {
+  display: none;
+}
+.dfc-banner__mark {
+  flex-shrink: 0;
+}
+.dfc-banner__brand-text {
+  flex: 1 1 0;
+  min-width: 0;
+  display: flex;
+  align-items: center;
+  padding-left: var(--dfc-space-4);
+  border-left: 1px solid var(--dfc-banner-border);
+  font-size: 16px;
+  line-height: 24px;
+  color: var(--dfc-banner-text);
+}
+
+/* shared slots */
+.dfc-banner__actions {
+  flex-shrink: 0;
+  display: flex;
+  align-items: center;
+  justify-content: flex-end;
+  gap: var(--dfc-space-3);
+}
+
+.dfc-banner__dismiss {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+  width: 20px;
+  height: 20px;
+  padding: 0;
+  margin: 0;
+  border: none;
+  background: transparent;
+  color: inherit;
+  opacity: 0.7;
+  cursor: pointer;
+  transition: opacity 120ms ease;
+}
+.dfc-banner__dismiss:hover {
+  opacity: 1;
+}
+.dfc-banner__dismiss-icon {
+  width: 12px;
+  height: 12px;
+}
+
+/* Tablet — Figma's 768px artboards. `icon-link` has no tablet variant in
+   the component set, so it keeps the desktop row. */
+@media (max-width: 1023px) {
+  .dfc-banner--logo-button .dfc-banner__wordmark {
+    display: none;
+  }
+  .dfc-banner--logo-button .dfc-banner__mark {
+    display: inline-block;
+  }
+  .dfc-banner--heading-description {
+    align-items: flex-start;
+  }
+  .dfc-banner--heading-description .dfc-banner__copy {
+    flex-direction: column;
+    align-items: flex-start;
+    justify-content: center;
+  }
+  .dfc-banner--heading-description .dfc-banner__actions {
+    justify-content: flex-start;
+  }
+}
+
+/* Mobile — Figma's 380px artboards. Every layout stacks and left-aligns. */
+@media (max-width: 767px) {
+  .dfc-banner {
+    align-items: flex-start;
+  }
+  .dfc-banner__lead,
+  .dfc-banner__marking {
+    align-items: flex-start;
+  }
+  .dfc-banner__lead {
+    justify-content: flex-start;
+  }
+  .dfc-banner__text,
+  .dfc-banner__marking-label {
+    flex: 1 1 0;
+    min-width: 0;
+    text-align: left;
+  }
+  .dfc-banner--icon-link .dfc-banner__text-link {
+    flex-direction: column;
+    align-items: flex-start;
+    justify-content: center;
+  }
+  .dfc-banner--newsletter .dfc-banner__form {
+    flex-direction: column;
+    align-items: stretch;
+    gap: 10px;
+  }
+  .dfc-banner--newsletter .dfc-banner__field {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 10px;
+    width: 100%;
+  }
+  .dfc-banner--newsletter .dfc-banner__field-control {
+    width: 100%;
+  }
+  .dfc-banner--newsletter .dfc-banner__actions {
+    justify-content: stretch;
+  }
+  /* Wrap rather than stack, so the CTA row and the dismiss control share
+     a line the way Figma's mobile "Buttons" row does, instead of the
+     dismiss dropping to a stray line of its own. */
+  .dfc-banner--logo-button {
+    flex-wrap: wrap;
+    align-items: center;
+    gap: var(--dfc-space-4);
+  }
+  .dfc-banner--logo-button .dfc-banner__brand {
+    flex: 1 0 100%;
+  }
+  .dfc-banner--logo-button .dfc-banner__brand-text {
+    font-size: 14px;
+  }
+  .dfc-banner--logo-button .dfc-banner__actions {
+    flex: 1 1 auto;
+    justify-content: flex-start;
+  }
+}
+
+/* Accordion */
+.dfc-accordion {
+  font-family: var(--dfc-font-sans);
+  color: var(--dfc-text-primary);
+  display: flex;
+  flex-direction: column;
+}
+
+.dfc-accordion--bordered {
+  border-top: 1px solid var(--dfc-border-subtle);
+}
+.dfc-accordion--bordered .dfc-accordion-item {
+  border-bottom: 1px solid var(--dfc-border-subtle);
+}
+
+.dfc-accordion--flush .dfc-accordion-item {
+  border-bottom: 1px solid var(--dfc-border-subtle);
+}
+.dfc-accordion--flush .dfc-accordion-item:last-child {
+  border-bottom: none;
+}
+.dfc-accordion--flush .dfc-accordion-item__button,
+.dfc-accordion--flush .dfc-accordion-item__panel-inner {
+  padding-left: 0;
+  padding-right: 0;
+}
+
+.dfc-accordion--cards {
+  gap: var(--dfc-space-3);
+}
+.dfc-accordion--cards .dfc-accordion-item {
+  border: 1px solid var(--dfc-border-subtle);
+  border-radius: var(--dfc-radius-md);
+  overflow: hidden;
+  background: var(--dfc-surface-1);
+}
+
+.dfc-accordion-item {
+  background: transparent;
+}
+.dfc-accordion-item--disabled {
+  opacity: 0.5;
+}
+
+.dfc-accordion-item__heading {
+  margin: 0;
+  font-size: inherit;
+  font-weight: inherit;
+}
+
+.dfc-accordion-item__button {
+  display: flex;
+  align-items: center;
+  gap: var(--dfc-space-3);
+  width: 100%;
+  padding: var(--dfc-space-3) var(--dfc-space-1);
+  border: none;
+  background: transparent;
+  color: var(--dfc-text-primary);
+  font-family: var(--dfc-font-sans);
+  font-size: 14px;
+  font-weight: 500;
+  text-align: left;
+  cursor: pointer;
+  transition: color 120ms ease;
+}
+.dfc-accordion-item__button:hover:not(:disabled) {
+  color: var(--dfc-accent);
+}
+.dfc-accordion-item__button:focus-visible {
+  outline: 2px solid var(--dfc-accent);
+  outline-offset: -2px;
+  border-radius: var(--dfc-radius-sm);
+}
+.dfc-accordion-item__button:disabled {
+  cursor: not-allowed;
+}
+
+.dfc-accordion-item__icon {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+  width: 20px;
+  height: 20px;
+  color: var(--dfc-text-secondary);
+}
+
+.dfc-accordion-item__header-text {
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+  flex: 1 1 auto;
+  min-width: 0;
+}
+
+.dfc-accordion-item__title {
+  color: var(--dfc-text-primary);
+}
+
+.dfc-accordion-item__subtitle {
+  font-size: 12px;
+  font-weight: 400;
+  color: var(--dfc-text-secondary);
+}
+
+.dfc-accordion-item__chevron-icon {
+  flex-shrink: 0;
+  color: var(--dfc-text-muted);
+  transform: rotate(90deg);
+  transition: transform 160ms ease;
+}
+.dfc-accordion-item--open .dfc-accordion-item__chevron-icon {
+  transform: rotate(-90deg);
+}
+
+.dfc-accordion-item__panel {
+  overflow: hidden;
+}
+.dfc-accordion-item__panel[hidden] {
+  display: none;
+}
+
+.dfc-accordion-item__panel-inner {
+  padding: 0 var(--dfc-space-1) var(--dfc-space-4);
+  color: var(--dfc-text-secondary);
+  font-size: 14px;
+  line-height: 1.6;
+}
+
+/* Checkbox / Radio / Toggle
+ *
+ * Figma "Checkbox input" and "Toggle switches" layers, as used across the
+ * Dropdown list item set (node 1149:39651). Painted from the --color-* token
+ * families, so it follows light/dark automatically.
+ *
+ * The checked styling is read from the design: the Dropdown menu "With scroll"
+ * and "Users" compositions draw a checked checkbox as --color-bg-brand with a
+ * --color-border-brand border and a white check, and a checked toggle as
+ * --color-bg-brand with a --color-border-brand-light border.
+ *
+ * NOTE: the design draws the UNCHECKED toggle twice, with different fills —
+ * --color-bg-quaternary in the Dropdown list item component set and
+ * --color-bg-tertiary-medium in the Dropdown menu "With toggle" composition.
+ * The component-set value wins here, being the canonical source.
+ */
+.dfc-checkbox {
+  position: relative;
+  display: inline-flex;
+  align-items: center;
+  flex-shrink: 0;
+  font-family: var(--dfc-font-sans);
+}
+.dfc-checkbox--labelled {
+  gap: 10px;
+  align-items: flex-start;
+  cursor: pointer;
+}
+.dfc-checkbox__input {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  margin: 0;
+  opacity: 0;
+  cursor: pointer;
+}
+.dfc-checkbox--labelled .dfc-checkbox__input {
+  width: 16px;
+  height: 16px;
+  inset: 0 auto auto 0;
+}
+.dfc-checkbox__control {
+  flex-shrink: 0;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  box-sizing: border-box;
+  width: 16px;
+  height: 16px;
+  background: var(--color-bg-secondary-strong);
+  border: 1px solid var(--color-border-base-strong);
+  border-radius: var(--dfc-radius-sm);
+  color: transparent;
+  transition: background-color 120ms ease, border-color 120ms ease;
+}
+.dfc-checkbox--radio .dfc-checkbox__control {
+  border-radius: 9999px;
+}
+.dfc-checkbox__glyph {
+  display: block;
+}
+.dfc-checkbox__input:checked + .dfc-checkbox__control {
+  background: var(--color-bg-brand);
+  border-color: var(--color-border-brand);
+  color: var(--color-bg-white);
+}
+.dfc-checkbox--radio .dfc-checkbox__input:checked + .dfc-checkbox__control {
+  box-shadow: inset 0 0 0 3px var(--color-bg-white);
+}
+.dfc-checkbox__input:focus-visible + .dfc-checkbox__control {
+  outline: 2px solid var(--color-border-brand-subtle);
+  outline-offset: 2px;
+}
+
+/* Toggle — 36x20 pill with a 16px knob */
+.dfc-checkbox--toggle .dfc-checkbox__control {
+  width: 36px;
+  height: 20px;
+  padding: 2px;
+  justify-content: flex-start;
+  background: var(--color-bg-quaternary);
+  border-radius: 9999px;
+}
+.dfc-checkbox__knob {
+  display: block;
+  width: 16px;
+  height: 16px;
+  border-radius: 9999px;
+  background: var(--color-bg-white);
+  box-shadow: 0 1px 3px 0 rgb(0 0 0 / 0.1), 0 1px 2px -1px rgb(0 0 0 / 0.1);
+  transition: transform 140ms ease;
+}
+.dfc-checkbox--toggle .dfc-checkbox__input:checked + .dfc-checkbox__control {
+  background: var(--color-bg-brand);
+  border-color: var(--color-border-brand-light);
+}
+.dfc-checkbox--toggle .dfc-checkbox__input:checked + .dfc-checkbox__control .dfc-checkbox__knob {
+  transform: translateX(16px);
+}
+
+/* Disabled — Figma's "Form & icons / Disabled": lighter border plus 50% alpha */
+.dfc-checkbox.is-disabled {
+  cursor: not-allowed;
+}
+.dfc-checkbox.is-disabled .dfc-checkbox__control {
+  border-color: var(--color-border-light);
+  opacity: 0.5;
+}
+.dfc-checkbox.is-disabled .dfc-checkbox__input {
+  cursor: not-allowed;
+}
+
+.dfc-checkbox__text {
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+  min-width: 0;
+}
+.dfc-checkbox__label {
+  font-size: 14px;
+  line-height: 16px;
+  font-weight: 500;
+  color: var(--color-text-heading);
+}
+.dfc-checkbox__helper {
+  font-size: 14px;
+  line-height: 20px;
+  color: var(--color-text-body);
+}
+.dfc-checkbox.is-disabled .dfc-checkbox__label,
+.dfc-checkbox.is-disabled .dfc-checkbox__helper {
+  color: var(--color-text-fg-disabled);
+}
+
+/* Dropdown list item
+ *
+ * Figma "Dropdown list item" component set (node 1149:39651): 17 Type layouts.
+ * Figma's State axis is implemented as :hover and the `disabled` prop, so all
+ * 51 variants are covered without a state prop.
+ *
+ * Figma draws the row at a fixed 208px (288px for user-select) because that is
+ * the artboard; here the row fills its menu and the menu owns the width.
+ */
+.dfc-ddli {
+  box-sizing: border-box;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 6px;
+  width: 100%;
+  padding: var(--dfc-space-2);
+  border-radius: 8px; /* Figma `rounded` = 8px; --dfc-radius-lg is 10px */
+  font-family: var(--dfc-font-sans);
+  font-size: 14px;
+  line-height: 14px;
+  font-weight: 500;
+  color: var(--color-text-body);
+  background: transparent;
+  cursor: pointer;
+  transition: background-color 120ms ease, color 120ms ease;
+}
+.dfc-ddli *,
+.dfc-ddli *::before,
+.dfc-ddli *::after {
+  box-sizing: border-box;
+}
+.dfc-ddli:hover,
+.dfc-ddli:focus-visible {
+  background: var(--color-bg-tertiary-medium);
+  color: var(--color-text-heading);
+}
+.dfc-ddli:focus-visible {
+  outline: 2px solid var(--color-border-brand-subtle);
+  outline-offset: -2px;
+}
+.dfc-ddli:hover .dfc-ddli__secondary,
+.dfc-ddli:focus-visible .dfc-ddli__secondary {
+  color: var(--color-text-heading);
+}
+
+/* Destructive rows — e.g. "Sign out" in the Dropdown menu compositions */
+.dfc-ddli--danger,
+.dfc-ddli--danger .dfc-ddli__text {
+  color: var(--color-text-fg-danger);
+}
+.dfc-ddli--danger:hover,
+.dfc-ddli--danger:focus-visible,
+.dfc-ddli--danger:hover .dfc-ddli__text,
+.dfc-ddli--danger:focus-visible .dfc-ddli__text {
+  color: var(--color-text-fg-danger);
+}
+
+.dfc-ddli.is-disabled {
+  cursor: not-allowed;
+  color: var(--color-text-fg-disabled);
+  background: transparent;
+}
+.dfc-ddli.is-disabled .dfc-ddli__secondary,
+.dfc-ddli.is-disabled .dfc-ddli__text {
+  color: var(--color-text-fg-disabled);
+}
+
+.dfc-ddli__lead {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  min-width: 0;
+}
+.dfc-ddli__trail {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  flex-shrink: 0;
+}
+.dfc-ddli__text {
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+.dfc-ddli__secondary {
+  font-size: 12px;
+  line-height: 12px;
+  font-weight: 400;
+  color: var(--color-text-body-subtle);
+  white-space: nowrap;
+}
+.dfc-ddli__icons {
+  display: flex;
+  align-items: center;
+  gap: 4px;
+  flex-shrink: 0;
+}
+.dfc-ddli--form-icons .dfc-ddli__icons {
+  gap: 2px;
+}
+
+/* form-dot — 10px status dot; the spec's default is the purple fg token */
+.dfc-ddli__dot {
+  flex-shrink: 0;
+  width: 10px;
+  height: 10px;
+  border-radius: 9999px;
+  background: var(--color-text-fg-purple);
+}
+
+/* icon-shapes — 24px bordered circle around the glyph */
+.dfc-ddli__icon-shape {
+  flex-shrink: 0;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 24px;
+  height: 24px;
+  border-radius: 9999px;
+  background: var(--color-bg-primary-medium);
+  border: 1px solid var(--color-border-base-medium);
+}
+
+/* flag — clipped to a circle, as drawn */
+.dfc-ddli__flag {
+  flex-shrink: 0;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 16px;
+  height: 16px;
+  border-radius: 9999px;
+  overflow: hidden;
+}
+.dfc-ddli__flag > * {
+  width: 100%;
+  height: 100%;
+}
+
+/* user-select — stacked name + email beside the avatar */
+.dfc-ddli__person {
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+  min-width: 0;
+}
+.dfc-ddli--user-select .dfc-ddli__text {
+  font-size: 12px;
+  line-height: 16px;
+  font-weight: 500;
+  color: var(--color-text-heading);
+}
+.dfc-ddli--user-select .dfc-ddli__secondary {
+  font-size: 12px;
+  line-height: 12px;
+  color: var(--color-text-body);
+}
+.dfc-ddli--user-select.is-disabled .dfc-ddli__text,
+.dfc-ddli--user-select.is-disabled .dfc-ddli__secondary {
+  color: var(--color-text-fg-disabled);
+}
+
+/* Fixed-height rows, per the design */
+.dfc-ddli--badge,
+.dfc-ddli--right-form {
+  height: 32px;
+}
+
+/* boxed — icon stacked over the label on a filled tile */
+.dfc-ddli--boxed {
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 6px;
+  padding: var(--dfc-space-3);
+  background: var(--color-bg-secondary-strong);
+  width: auto;
+}
+.dfc-ddli--boxed .dfc-ddli__lead {
+  flex-direction: column;
+  align-items: center;
+  gap: 6px;
+}
+.dfc-ddli--boxed:hover,
+.dfc-ddli--boxed:focus-visible {
+  background: var(--color-bg-quaternary-medium);
+}
+.dfc-ddli--boxed.is-disabled {
+  background: transparent;
+}
+
+/* only-form — the checkbox owns the label and helper line */
+.dfc-ddli--only-form {
+  gap: 6px;
+  padding: var(--dfc-space-2) 10px;
+  justify-content: flex-start;
+}
+/* Let the labelled control shrink so its helper text wraps inside the row
+   rather than overflowing the menu. */
+.dfc-ddli--only-form .dfc-checkbox {
+  flex: 1 1 auto;
+  min-width: 0;
+}
+.dfc-ddli--only-form .dfc-checkbox__label,
+.dfc-ddli--only-form .dfc-checkbox__helper {
+  overflow-wrap: anywhere;
+}
+
+/* Dropdown header
+ *
+ * Figma "Dropdown header" component set (node 1149:39866): 5 Type layouts and
+ * no State axis — a header is not interactive. Painted from the --color-*
+ * token families, so it follows light/dark automatically.
+ *
+ * Figma fixes the widths (192px / 288px) because those are the artboards; here
+ * the header fills its menu and the menu owns the width.
+ */
+.dfc-ddh {
+  box-sizing: border-box;
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  width: 100%;
+  padding: var(--dfc-space-2) 10px;
+  border-radius: 8px; /* Figma `rounded` = 8px */
+  background: var(--color-bg-secondary-strong);
+  font-family: var(--dfc-font-sans);
+  font-size: 14px;
+  color: var(--color-text-body);
+}
+.dfc-ddh *,
+.dfc-ddh *::before,
+.dfc-ddh *::after {
+  box-sizing: border-box;
+}
+
+.dfc-ddh__title {
+  font-size: 14px;
+  line-height: 14px;
+  font-weight: 500;
+  color: var(--color-text-heading);
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+.dfc-ddh__helper {
+  font-size: 14px;
+  line-height: 20px;
+  font-weight: 400;
+  color: var(--color-text-body);
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+/* text-helper — stacked name over email */
+.dfc-ddh--text-helper {
+  flex-direction: column;
+  align-items: flex-start;
+  gap: 2px;
+}
+
+/* with-avatar / selector — avatar and text on the left, badge or chevron right */
+.dfc-ddh__person {
+  display: flex;
+  flex: 1 1 0;
+  min-width: 0;
+  align-items: center;
+  gap: 6px;
+}
+.dfc-ddh__person-text {
+  display: flex;
+  flex: 1 1 0;
+  min-width: 0;
+  flex-direction: column;
+  gap: 2px;
+  overflow: hidden;
+}
+.dfc-ddh__glyph {
+  display: block;
+  flex-shrink: 0;
+  color: var(--color-text-body);
+}
+
+/* The "PRO" pill. Takes badge TEXT — the tint lives here, not on a Badge. */
+.dfc-ddh__badge {
+  flex-shrink: 0;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: var(--dfc-space-1);
+  padding: 2px var(--dfc-space-1);
+  border-radius: var(--dfc-radius-md);
+  background: var(--color-bg-brand-softer);
+  border: 1px solid var(--color-border-brand-subtle);
+  font-size: 12px;
+  line-height: 16px;
+  font-weight: 500;
+  color: var(--color-text-fg-brand-strong);
+  white-space: nowrap;
+}
+
+/* big-avatar — centered column, no surface fill, with room for an action */
+.dfc-ddh--big-avatar {
+  flex-direction: column;
+  align-items: center;
+  gap: var(--dfc-space-3);
+  background: transparent;
+}
+.dfc-ddh__stack {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: var(--dfc-space-2);
+}
+.dfc-ddh__stack-text {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: var(--dfc-space-1);
+  text-align: center;
+}
+
+/* form — a bare search field, no surface fill on the header itself */
+.dfc-ddh--form {
+  padding: 0;
+  border-radius: var(--dfc-radius-lg);
+  background: transparent;
+}
+.dfc-ddh__field {
+  display: flex;
+  flex: 1 1 0;
+  min-width: 0;
+  align-items: center;
+  gap: var(--dfc-space-2);
+  padding: var(--dfc-space-2) 10px;
+  border-radius: 12px; /* Figma `rounded-base` = 12px */
+  background: var(--color-bg-secondary-medium);
+  border: 1px solid var(--color-border-base-medium);
+  box-shadow: 0 1px 0.25px rgb(29 41 61 / 0.02);
+  color: var(--color-text-body-subtle);
+}
+.dfc-ddh__field:focus-within {
+  border-color: var(--color-border-brand-subtle);
+}
+.dfc-ddh__input {
+  flex: 1 1 0;
+  min-width: 0;
+  padding: 0;
+  border: none;
+  background: transparent;
+  font: inherit;
+  font-size: 14px;
+  line-height: 20px;
+  color: var(--color-text-heading);
+}
+.dfc-ddh__input::placeholder {
+  color: var(--color-text-body-subtle);
+}
+.dfc-ddh__input:focus {
+  outline: none;
+}
+.dfc-ddh__input::-webkit-search-cancel-button {
+  appearance: none;
+}
+
+/* Dropdown menu
+ *
+ * Figma "Dropdown menu" component set (node 1149:39895): the surface that
+ * holds a dropdown's header and rows. Painted from the --color-* token
+ * families, so it follows light/dark automatically.
+ *
+ * Figma fixes each composition's width (208-320px) because those are the
+ * artboards; the widths below reproduce them, but a real menu should set its
+ * own width and let the rows fill it.
+ */
+.dfc-ddm {
+  box-sizing: border-box;
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  gap: 6px;
+  width: 208px;
+  max-width: 100%;
+  padding: var(--dfc-space-2);
+  border-radius: 12px; /* Figma `rounded-base` */
+  background: var(--color-bg-primary-medium);
+  border: 1px solid var(--color-border-base-medium);
+  box-shadow: 0 10px 15px -3px rgb(0 0 0 / 0.1), 0 4px 6px 0 rgb(0 0 0 / 0.05);
+  font-family: var(--dfc-font-sans);
+  color: var(--color-text-body);
+  overflow: clip;
+}
+.dfc-ddm *,
+.dfc-ddm *::before,
+.dfc-ddm *::after {
+  box-sizing: border-box;
+}
+.dfc-ddm > * {
+  width: 100%;
+}
+.dfc-ddm p {
+  margin: 0;
+}
+
+/* Per-composition widths, straight from the artboards */
+.dfc-ddm--user-profile,
+.dfc-ddm--checkbox,
+.dfc-ddm--heading-button,
+.dfc-ddm--user-selection,
+.dfc-ddm--with-number-inputs,
+.dfc-ddm--grid {
+  width: 288px;
+}
+.dfc-ddm--with-toggle,
+.dfc-ddm--menu,
+.dfc-ddm--with-forms,
+.dfc-ddm--text-illustration {
+  width: 320px;
+}
+.dfc-ddm--users {
+  width: 240px;
+}
+.dfc-ddm--with-separator {
+  width: 224px;
+}
+
+/* grid — the boxed rows wrap and share the width */
+.dfc-ddm--grid {
+  flex-direction: row;
+  flex-wrap: wrap;
+  align-content: flex-start;
+}
+.dfc-ddm--grid > * {
+  flex: 1 0 0;
+  min-width: 86px;
+  width: auto;
+}
+
+/* separator */
+.dfc-ddm__separator {
+  display: flex;
+  flex-direction: column;
+  padding: var(--dfc-space-1) 0;
+}
+.dfc-ddm__separator > span {
+  display: block;
+  height: 1px;
+  width: 100%;
+  background: var(--color-bg-quaternary);
+}
+
+/* heading-button — a section title above the rows */
+.dfc-ddm__heading {
+  padding: var(--dfc-space-2) 10px 0;
+  font-size: 14px;
+  line-height: 20px;
+  font-weight: 600;
+  color: var(--color-text-heading);
+}
+
+/* with-scroll — sticky top/bottom bars around a scrolling middle */
+.dfc-ddm--with-scroll {
+  padding: 0;
+  gap: 0;
+}
+.dfc-ddm__static {
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+  padding: var(--dfc-space-2);
+  background: var(--color-bg-primary-medium);
+}
+.dfc-ddm__static--top {
+  border-bottom: 1px solid var(--color-border-base-medium);
+  box-shadow: 0 1px 7px rgb(19 28 52 / 0.1);
+}
+.dfc-ddm__static--bottom {
+  border-top: 1px solid var(--color-border-base-medium);
+  box-shadow: 0 -1px 7px rgb(19 28 52 / 0.1);
+}
+.dfc-ddm__scroll {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+  height: 294px;
+  padding: var(--dfc-space-2);
+  overflow-y: auto;
+  scrollbar-width: thin;
+  scrollbar-color: var(--color-bg-gray) transparent;
+}
+.dfc-ddm__scroll::-webkit-scrollbar {
+  width: 4px;
+}
+.dfc-ddm__scroll::-webkit-scrollbar-thumb {
+  background: var(--color-bg-gray);
+  border-radius: 3px;
+}
+
+/* search / date fields */
+.dfc-ddm__field {
+  display: flex;
+  flex: 1 1 0;
+  min-width: 0;
+  align-items: center;
+  gap: var(--dfc-space-2);
+  padding: var(--dfc-space-2) 10px;
+  border-radius: 8px;
+  background: var(--color-bg-secondary-strong);
+  border: 1px solid var(--color-border-base-strong);
+  box-shadow: 0 1px 0.25px rgb(29 41 61 / 0.02);
+  color: var(--color-text-body-subtle);
+}
+.dfc-ddm__field:focus-within {
+  border-color: var(--color-border-brand-subtle);
+}
+.dfc-ddm__field-icon {
+  flex-shrink: 0;
+  display: block;
+}
+.dfc-ddm__input {
+  flex: 1 1 0;
+  min-width: 0;
+  padding: 0;
+  border: none;
+  background: transparent;
+  font: inherit;
+  font-size: 14px;
+  line-height: 20px;
+  color: var(--color-text-heading);
+}
+.dfc-ddm__input::placeholder {
+  color: var(--color-text-body-subtle);
+}
+.dfc-ddm__input:focus {
+  outline: none;
+}
+.dfc-ddm__input::-webkit-search-cancel-button {
+  appearance: none;
+}
+
+/* with-forms — two date fields either side of a "to" */
+.dfc-ddm__form-row {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+}
+.dfc-ddm__form-sep {
+  flex-shrink: 0;
+  font-size: 14px;
+  line-height: 20px;
+  color: var(--color-text-body);
+}
+
+/* Buttons. The design draws these neutral/brand/danger; they are painted from
+   the --color-* families rather than the gold `Button`, so a menu stays
+   internally consistent. */
+.dfc-ddm__btn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 6px;
+  padding: 6px 10px;
+  border-radius: 8px;
+  border: 1px solid var(--color-border-base-strong);
+  background: var(--color-bg-primary-strong);
+  font: inherit;
+  font-size: 14px;
+  line-height: 20px;
+  font-weight: 500;
+  color: var(--color-text-heading);
+  cursor: pointer;
+  transition: background-color 120ms ease;
+}
+.dfc-ddm__btn:hover {
+  background: var(--color-bg-tertiary-medium);
+}
+.dfc-ddm__btn--block {
+  width: 100%;
+}
+.dfc-ddm__btn--brand {
+  background: var(--color-bg-brand);
+  border-color: var(--color-border-brand);
+  color: var(--color-text-white);
+}
+.dfc-ddm__btn--brand:hover {
+  background: var(--color-bg-brand-strong);
+}
+.dfc-ddm__btn--danger {
+  background: var(--color-bg-danger);
+  border-color: var(--color-bg-danger);
+  color: var(--color-text-white);
+}
+.dfc-ddm__btn--danger:hover {
+  background: var(--color-bg-danger-strong);
+}
+.dfc-ddm__btn-icon {
+  flex-shrink: 0;
+  display: block;
+}
+
+/* with-toggle — a toggle with label + helper on each row */
+.dfc-ddm__toggle-row {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  padding: var(--dfc-space-2) 10px;
+  border-radius: 8px;
+}
+.dfc-ddm__toggle-row:hover {
+  background: var(--color-bg-tertiary-medium);
+}
+.dfc-ddm__toggle-row .dfc-checkbox--labelled {
+  gap: var(--dfc-space-2);
+  align-items: flex-start;
+  width: 100%;
+}
+.dfc-ddm__toggle-row .dfc-checkbox__label {
+  line-height: 20px;
+}
+
+/* with-number-inputs */
+.dfc-ddm__number-row {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 6px;
+  padding: var(--dfc-space-3);
+  border-radius: 8px;
+}
+.dfc-ddm__number-row:hover {
+  background: var(--color-bg-tertiary-medium);
+}
+.dfc-ddm__number-text {
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+  min-width: 0;
+}
+.dfc-ddm__number-label {
+  font-size: 14px;
+  line-height: 1;
+  font-weight: 500;
+  color: var(--color-text-heading);
+}
+.dfc-ddm__number-helper {
+  font-size: 14px;
+  line-height: 20px;
+  color: var(--color-text-body);
+}
+.dfc-ddm__stepper {
+  display: inline-flex;
+  align-items: center;
+  flex-shrink: 0;
+  border-radius: 8px;
+  box-shadow: 0 1px 0.25px rgb(29 41 61 / 0.02);
+}
+.dfc-ddm__stepper-btn {
+  width: 32px;
+  height: 32px;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  border: 1px solid var(--color-border-base-strong);
+  background: var(--color-bg-primary-strong);
+  font: inherit;
+  font-size: 16px;
+  line-height: 1;
+  color: var(--color-text-heading);
+  cursor: pointer;
+}
+.dfc-ddm__stepper-btn:first-child {
+  border-radius: 8px 0 0 8px;
+}
+.dfc-ddm__stepper-btn:last-child {
+  border-radius: 0 8px 8px 0;
+}
+.dfc-ddm__stepper-btn:hover {
+  background: var(--color-bg-tertiary-medium);
+}
+.dfc-ddm__stepper-value {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 48px;
+  height: 32px;
+  border-block: 1px solid var(--color-border-base-strong);
+  background: var(--color-bg-primary-strong);
+  font-size: 14px;
+  line-height: 20px;
+  color: var(--color-text-heading);
+}
+
+/* text-illustration — the empty state */
+.dfc-ddm__empty {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 10px;
+  padding: var(--dfc-space-4);
+  border-radius: 8px;
+  background: var(--color-bg-secondary-strong);
+}
+.dfc-ddm__empty-title {
+  font-size: 16px;
+  line-height: 16px;
+  font-weight: 600;
+  color: var(--color-text-heading);
+}
+.dfc-ddm__empty-body {
+  font-size: 14px;
+  line-height: 20px;
+  text-align: center;
+  color: var(--color-text-body);
+}
+
+/* menu — the upgrade CTA and the model list */
+.dfc-ddm__cta {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  padding: var(--dfc-space-3);
+  border-radius: 8px;
+  background: var(--color-bg-secondary-soft);
+  border: 1px solid var(--color-border-base-medium);
+  /* The design layers a decorative grid of #F9FAFB squares here. It is the
+     same color as this surface with a ~0.003px gap, so it is invisible; the
+     418KB export is deliberately not shipped. */
+}
+.dfc-ddm__cta-text {
+  display: flex;
+  flex: 1 1 0;
+  min-width: 0;
+  flex-direction: column;
+  align-items: flex-start;
+  gap: 6px;
+}
+.dfc-ddm__cta-title {
+  font-size: 16px;
+  line-height: 24px;
+  font-weight: 500;
+  color: var(--color-text-heading);
+}
+.dfc-ddm__price {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 1px;
+  flex-shrink: 0;
+  padding: var(--dfc-space-3);
+  border-radius: 8px;
+  background: var(--color-bg-primary-medium);
+  border: 1px solid var(--color-border-base-medium);
+}
+.dfc-ddm__price-amount {
+  font-size: 16px;
+  line-height: 1;
+  font-weight: 700;
+  letter-spacing: -0.4px;
+  color: var(--color-text-heading);
+}
+.dfc-ddm__price-period {
+  font-size: 12px;
+  line-height: 1.5;
+  color: var(--color-text-body);
+}
+.dfc-ddm__models {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+}
+.dfc-ddm__model {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 6px;
+  padding: var(--dfc-space-2);
+  border-radius: 8px;
+  cursor: pointer;
+}
+.dfc-ddm__model + .dfc-ddm__model {
+  border-top: 1px solid var(--color-bg-quaternary);
+}
+.dfc-ddm__model:hover,
+.dfc-ddm__model.is-active {
+  background: var(--color-bg-tertiary-medium);
+}
+.dfc-ddm__model:hover .dfc-ddm__model-name,
+.dfc-ddm__model.is-active .dfc-ddm__model-name {
+  color: var(--color-text-heading);
+}
+.dfc-ddm__model-name {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  min-width: 0;
+  font-size: 14px;
+  line-height: 1;
+  font-weight: 500;
+  color: var(--color-text-body);
+}
+.dfc-ddm__model-badges {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  flex-shrink: 0;
+}
+.dfc-ddm__model-badge {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 24px;
+  height: 24px;
+  border-radius: 8px;
+  background: var(--color-bg-tertiary-medium);
+  color: var(--color-text-body);
+}
+
+/* the ⌘-key badge, and the brand pill used by user-selection */
+.dfc-ddm__kbd {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  padding: 2px var(--dfc-space-1);
+  border-radius: var(--dfc-radius-md);
+  background: var(--color-bg-primary-strong);
+  border: 1px solid var(--color-border-base-strong);
+  font-size: 12px;
+  line-height: 16px;
+  font-weight: 500;
+  color: var(--color-text-heading);
+}
+.dfc-ddm__pill {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  padding: 2px var(--dfc-space-1);
+  border-radius: var(--dfc-radius-md);
+  background: var(--color-bg-brand-softer);
+  border: 1px solid var(--color-border-brand-subtle);
+  font-size: 12px;
+  line-height: 16px;
+  font-weight: 500;
+  color: var(--color-text-fg-brand-strong);
+  white-space: nowrap;
 }

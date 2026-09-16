@@ -50,3 +50,605 @@
   --dfc-space-6: 24px;
   --dfc-space-8: 32px;
 }
+
+
+/* ---------------------------------------------------------------------------
+ * Text (foreground) colors
+ *
+ * Ported verbatim from the Figma "Text color variables" spec
+ * (file Pxlc9tI2bzrMBFSHfz41s7, node 1146:1473).
+ *
+ * Naming is the spec's own convention and is deliberately NOT renamed to the
+ * `--dfc-*` family: because CSS custom properties share one namespace, every
+ * foreground token is prefixed `--color-text-` so it cannot collide with a
+ * background token, and the semantic color roles carry an additional `-fg`
+ * infix. The structural tokens (white/black/heading/body/body-subtle) have no
+ * `-fg`, exactly as drawn.
+ *
+ * Light is the base mode, per the spec. Dark is applied automatically from the
+ * OS preference and can be forced either way with [data-theme="dark"] /
+ * [data-theme="light"] on any ancestor.
+ *
+ * Four tokens are intentionally mode-invariant — white, black, fg-brand-subtle
+ * and fg-yellow — and so are absent from the dark blocks below.
+ *
+ * NOTE: these are additive. No component consumes them yet; the existing
+ * `--dfc-*` tokens above still drive every component in this library.
+ */
+:root {
+  --color-text-white: #ffffff;              /* White text for headings, paragraphs or icons, holding the same white in both light and dark modes. */
+  --color-text-black: #030712;              /* Black text for headings, paragraphs or icons, holding the same black in both light and dark modes. */
+  --color-text-heading: #101828;            /* Primary text such as headings and some important CTA links. */
+  --color-text-body: #4a5565;               /* Secondary text such as paragraphs, helper/supporting text, and secondary and tertiary button text. */
+  --color-text-body-subtle: #6a7282;        /* Text of lesser importance, like optional text in a label or helper text. */
+  --color-text-fg-brand-subtle: #bedbff;    /* Brand-related text that must stay blue on both light and dark backgrounds. */
+  --color-text-fg-brand: #1447e6;           /* Primary brand text for links, icons or headings that should carry the brand color. */
+  --color-text-fg-brand-strong: #1c398e;    /* Brand text sitting inside an alert or badge with a brand-colored background, for contrast. */
+  --color-text-fg-success: #007a55;         /* Text communicating positive feedback, successful states, or confirmation messages. */
+  --color-text-fg-success-strong: #004f3b;  /* Text sitting inside an alert or badge with a success-colored background, for contrast. */
+  --color-text-fg-danger: #c70036;          /* Errors or critical states — text requiring immediate user attention. */
+  --color-text-fg-danger-strong: #8b0836;   /* Text sitting inside an alert or badge with a danger-colored background, for contrast. */
+  --color-text-fg-warning-subtle: #e17100;  /* Caution, potential issues, or neutral alerts — something to be aware of, but not an error or success. */
+  --color-text-fg-warning: #7b3306;         /* Text sitting inside an alert or badge with a warning-colored background, for contrast. */
+  --color-text-fg-yellow: #fdc700;          /* Rating stars, other rating icons, or text that needs attention. */
+  --color-text-fg-info: #1c398e;            /* Neutral, helpful or informative content, like an announcement banner or alert. */
+  --color-text-fg-disabled: #99a1af;        /* Non-interactive, low-priority or read-only text, like a disabled button or input field. */
+  --color-text-fg-purple: #9810fa;          /* Categorical data in visualizations like charts, graphs and dashboards. */
+  --color-text-fg-cyan: #0092b8;            /* Categorical data in visualizations like charts, graphs and dashboards. */
+  --color-text-fg-indigo: #4f39f6;          /* Categorical data in visualizations like charts, graphs and dashboards. */
+  --color-text-fg-pink: #e60076;            /* Categorical data in visualizations like charts, graphs and dashboards. */
+  --color-text-fg-lime: #5ea500;            /* Categorical data in visualizations like charts, graphs and dashboards. */
+}
+
+@media (prefers-color-scheme: dark) {
+  :root:not([data-theme='light']) {
+    --color-text-heading: #ffffff;
+    --color-text-body: #99a1af;
+    --color-text-body-subtle: #99a1af;
+    --color-text-fg-brand: #2b7fff;
+    --color-text-fg-brand-strong: #51a2ff;
+    --color-text-fg-success: #009966;
+    --color-text-fg-success-strong: #5ee9b5;
+    --color-text-fg-danger: #ff2056;
+    --color-text-fg-danger-strong: #ffa1ad;
+    --color-text-fg-warning-subtle: #ff5a1f;
+    --color-text-fg-warning: #fdba8c;
+    --color-text-fg-info: #8ec5ff;
+    --color-text-fg-disabled: #4a5565;
+    --color-text-fg-purple: #ad46ff;
+    --color-text-fg-cyan: #00b8db;
+    --color-text-fg-indigo: #615fff;
+    --color-text-fg-pink: #f6339a;
+    --color-text-fg-lime: #7ccf00;
+  }
+}
+
+[data-theme='dark'] {
+  --color-text-heading: #ffffff;
+  --color-text-body: #99a1af;
+  --color-text-body-subtle: #99a1af;
+  --color-text-fg-brand: #2b7fff;
+  --color-text-fg-brand-strong: #51a2ff;
+  --color-text-fg-success: #009966;
+  --color-text-fg-success-strong: #5ee9b5;
+  --color-text-fg-danger: #ff2056;
+  --color-text-fg-danger-strong: #ffa1ad;
+  --color-text-fg-warning-subtle: #ff5a1f;
+  --color-text-fg-warning: #fdba8c;
+  --color-text-fg-info: #8ec5ff;
+  --color-text-fg-disabled: #4a5565;
+  --color-text-fg-purple: #ad46ff;
+  --color-text-fg-cyan: #00b8db;
+  --color-text-fg-indigo: #615fff;
+  --color-text-fg-pink: #f6339a;
+  --color-text-fg-lime: #7ccf00;
+}
+
+
+/* Restores the light values on any subtree, so [data-theme] works in both
+   directions — without this, forcing light inside a dark-preference OS has
+   no effect, because the light values live only on :root. */
+[data-theme='light'] {
+  --color-text-heading: #101828;
+  --color-text-body: #4a5565;
+  --color-text-body-subtle: #6a7282;
+  --color-text-fg-brand: #1447e6;
+  --color-text-fg-brand-strong: #1c398e;
+  --color-text-fg-success: #007a55;
+  --color-text-fg-success-strong: #004f3b;
+  --color-text-fg-danger: #c70036;
+  --color-text-fg-danger-strong: #8b0836;
+  --color-text-fg-warning-subtle: #e17100;
+  --color-text-fg-warning: #7b3306;
+  --color-text-fg-info: #1c398e;
+  --color-text-fg-disabled: #99a1af;
+  --color-text-fg-purple: #9810fa;
+  --color-text-fg-cyan: #0092b8;
+  --color-text-fg-indigo: #4f39f6;
+  --color-text-fg-pink: #e60076;
+  --color-text-fg-lime: #5ea500;
+}
+
+
+/* ---------------------------------------------------------------------------
+ * Background colors
+ *
+ * Ported verbatim from the Figma "Background color variables" spec
+ * (file Pxlc9tI2bzrMBFSHfz41s7, node 1146:1838), and the companion to the
+ * --color-text-* set above.
+ *
+ * The soft/medium/strong "shades" exist so a surface can be layered without
+ * per-case overrides: several of them collapse to the SAME value in light mode
+ * and only diverge in dark. That is deliberate, not duplication — e.g. all four
+ * `primary` shades are #ffffff in light, but span #030712..#333e4f in dark,
+ * which is what lets dark-mode components stack on already-dark surfaces.
+ *
+ * 7 tokens are mode-invariant and so are absent from the dark blocks:
+ * white, danger, dark, purple, sky, cyan, orange.
+ *
+ * Light is the base mode; dark follows the OS preference and either mode can be
+ * forced on any subtree with [data-theme="dark"] / [data-theme="light"].
+ *
+ * NOTE: additive. No component consumes these yet; the `--dfc-*` tokens still
+ * drive every component in this library.
+ */
+:root {
+  /* White primary background used across all layouts and components like cards, secondary buttons and widgets. */
+  --color-bg-white: #ffffff;
+  --color-bg-primary-soft: #ffffff;
+  --color-bg-primary: #ffffff;
+  --color-bg-primary-medium: #ffffff;
+  --color-bg-primary-strong: #ffffff;
+
+  /* Used on white or light backgrounds to ensure visual clarity and contrast for UI elements like secondary buttons, dropdowns, inputs and icon shapes. */
+  --color-bg-secondary-soft: #f9fafb;
+  --color-bg-secondary: #f9fafb;
+  --color-bg-secondary-medium: #f9fafb;
+  --color-bg-secondary-strong: #f9fafb;
+
+  /* Enhanced visual contrast against white backgrounds, specifically for interactive elements like toggles, checkboxes and input fields. */
+  --color-bg-tertiary-soft: #f3f4f6;
+  --color-bg-tertiary: #f3f4f6;
+  --color-bg-tertiary-medium: #f3f4f6;
+
+  /* Enhanced visual contrast against white backgrounds, for progress bars and slider controls. */
+  --color-bg-quaternary: #e5e7eb;
+  --color-bg-quaternary-medium: #e5e7eb;
+
+  /* Enhanced visual contrast against white backgrounds, for patterns or other graphic elements. */
+  --color-bg-gray: #d1d5dc;
+
+  /* Alerts, badges and banners intended to show brand identity or informational messages. */
+  --color-bg-brand-softer: #eef6ff;
+  --color-bg-brand-soft: #dbeafe;
+  --color-bg-brand-medium: #bedbff;
+
+  /* Brand elements like buttons, icons and other components intended to show brand identity. */
+  --color-bg-brand: #1447e6;
+
+  /* Background for data visualization elements, such as charts, to display and contextualize data. */
+  --color-bg-brand-strong: #193cb8;
+
+  /* Alerts, badges and banners communicating positive feedback, successful states or confirmation messages. */
+  --color-bg-success-soft: #ecfdf5;
+  --color-bg-success-medium: #d0fae5;
+
+  /* Buttons, icons and other components intended to show successful states or confirmation messages. */
+  --color-bg-success: #007a55;
+
+  /* Background for data visualization elements, such as charts, to display and contextualize data. */
+  --color-bg-success-strong: #006045;
+
+  /* Alerts, badges and banners communicating negative feedback, error states or critical warnings. */
+  --color-bg-danger-soft: #fef0f2;
+  --color-bg-danger-medium: #ffe4e6;
+
+  /* Buttons, icons and other components communicating negative feedback, error states or critical warnings. */
+  --color-bg-danger: #c70036;
+
+  /* Background for data visualization elements, such as charts, to display and contextualize data. */
+  --color-bg-danger-strong: #a50036;
+
+  /* Alerts, badges and banners communicating caution, potential issues or non-critical concerns. */
+  --color-bg-warning-soft: #fffbeb;
+  --color-bg-warning-medium: #fef3c6;
+
+  /* Buttons, icons and other components communicating caution, potential issues or non-critical concerns. */
+  --color-bg-warning: #e17100;
+
+  /* Background for data visualization elements, such as charts, to display and contextualize data. */
+  --color-bg-warning-strong: #bb4d00;
+
+  /* Buttons and icon shapes that must hold the same dark color across both light and dark modes. */
+  --color-bg-dark-strong: #101828;
+  --color-bg-dark: #1e2939;
+
+  /* Non-interactive, low-priority or read-only elements like disabled buttons or input fields. */
+  --color-bg-disabled: #f3f4f6;
+
+  /* Categorical data in visualizations like charts, graphs and dashboards. */
+  --color-bg-purple: #ad46ff;
+  --color-bg-sky: #00a6f4;
+  --color-bg-teal: #009689;
+  --color-bg-pink: #e60076;
+  --color-bg-cyan: #00b8db;
+  --color-bg-fuchsia: #c800de;
+  --color-bg-indigo: #4f39f6;
+  --color-bg-orange: #ff8a4c;
+  --color-bg-red: #e7000b;
+}
+
+@media (prefers-color-scheme: dark) {
+  :root:not([data-theme='light']) {
+    --color-bg-primary-soft: #101828;
+    --color-bg-primary: #030712;
+    --color-bg-primary-medium: #1e2939;
+    --color-bg-primary-strong: #333e4f;
+    --color-bg-secondary-soft: #101828;
+    --color-bg-secondary: #030712;
+    --color-bg-secondary-medium: #1e2939;
+    --color-bg-secondary-strong: #333e4f;
+    --color-bg-tertiary-soft: #101828;
+    --color-bg-tertiary: #1e2939;
+    --color-bg-tertiary-medium: #333e4f;
+    --color-bg-quaternary: #333e4f;
+    --color-bg-quaternary-medium: #4a5565;
+    --color-bg-gray: #4a5565;
+    --color-bg-brand-softer: #162455;
+    --color-bg-brand-soft: #162455;
+    --color-bg-brand-medium: #1c398e;
+    --color-bg-brand: #155dfc;
+    --color-bg-brand-strong: #1447e6;
+    --color-bg-success-soft: #002c22;
+    --color-bg-success-medium: #004f3b;
+    --color-bg-success: #009966;
+    --color-bg-success-strong: #007a55;
+    --color-bg-danger-soft: #4d0218;
+    --color-bg-danger-medium: #8b0836;
+    --color-bg-danger-strong: #c70036;
+    --color-bg-warning-soft: #461901;
+    --color-bg-warning-medium: #7b3306;
+    --color-bg-warning: #fe9a00;
+    --color-bg-warning-strong: #e17100;
+    --color-bg-dark-strong: #1e2939;
+    --color-bg-disabled: #1e2939;
+    --color-bg-teal: #00bba7;
+    --color-bg-pink: #f6339a;
+    --color-bg-fuchsia: #e12afb;
+    --color-bg-indigo: #615fff;
+    --color-bg-red: #ff6467;
+  }
+}
+
+[data-theme='dark'] {
+  --color-bg-primary-soft: #101828;
+  --color-bg-primary: #030712;
+  --color-bg-primary-medium: #1e2939;
+  --color-bg-primary-strong: #333e4f;
+  --color-bg-secondary-soft: #101828;
+  --color-bg-secondary: #030712;
+  --color-bg-secondary-medium: #1e2939;
+  --color-bg-secondary-strong: #333e4f;
+  --color-bg-tertiary-soft: #101828;
+  --color-bg-tertiary: #1e2939;
+  --color-bg-tertiary-medium: #333e4f;
+  --color-bg-quaternary: #333e4f;
+  --color-bg-quaternary-medium: #4a5565;
+  --color-bg-gray: #4a5565;
+  --color-bg-brand-softer: #162455;
+  --color-bg-brand-soft: #162455;
+  --color-bg-brand-medium: #1c398e;
+  --color-bg-brand: #155dfc;
+  --color-bg-brand-strong: #1447e6;
+  --color-bg-success-soft: #002c22;
+  --color-bg-success-medium: #004f3b;
+  --color-bg-success: #009966;
+  --color-bg-success-strong: #007a55;
+  --color-bg-danger-soft: #4d0218;
+  --color-bg-danger-medium: #8b0836;
+  --color-bg-danger-strong: #c70036;
+  --color-bg-warning-soft: #461901;
+  --color-bg-warning-medium: #7b3306;
+  --color-bg-warning: #fe9a00;
+  --color-bg-warning-strong: #e17100;
+  --color-bg-dark-strong: #1e2939;
+  --color-bg-disabled: #1e2939;
+  --color-bg-teal: #00bba7;
+  --color-bg-pink: #f6339a;
+  --color-bg-fuchsia: #e12afb;
+  --color-bg-indigo: #615fff;
+  --color-bg-red: #ff6467;
+}
+
+[data-theme='light'] {
+  --color-bg-primary-soft: #ffffff;
+  --color-bg-primary: #ffffff;
+  --color-bg-primary-medium: #ffffff;
+  --color-bg-primary-strong: #ffffff;
+  --color-bg-secondary-soft: #f9fafb;
+  --color-bg-secondary: #f9fafb;
+  --color-bg-secondary-medium: #f9fafb;
+  --color-bg-secondary-strong: #f9fafb;
+  --color-bg-tertiary-soft: #f3f4f6;
+  --color-bg-tertiary: #f3f4f6;
+  --color-bg-tertiary-medium: #f3f4f6;
+  --color-bg-quaternary: #e5e7eb;
+  --color-bg-quaternary-medium: #e5e7eb;
+  --color-bg-gray: #d1d5dc;
+  --color-bg-brand-softer: #eef6ff;
+  --color-bg-brand-soft: #dbeafe;
+  --color-bg-brand-medium: #bedbff;
+  --color-bg-brand: #1447e6;
+  --color-bg-brand-strong: #193cb8;
+  --color-bg-success-soft: #ecfdf5;
+  --color-bg-success-medium: #d0fae5;
+  --color-bg-success: #007a55;
+  --color-bg-success-strong: #006045;
+  --color-bg-danger-soft: #fef0f2;
+  --color-bg-danger-medium: #ffe4e6;
+  --color-bg-danger-strong: #a50036;
+  --color-bg-warning-soft: #fffbeb;
+  --color-bg-warning-medium: #fef3c6;
+  --color-bg-warning: #e17100;
+  --color-bg-warning-strong: #bb4d00;
+  --color-bg-dark-strong: #101828;
+  --color-bg-disabled: #f3f4f6;
+  --color-bg-teal: #009689;
+  --color-bg-pink: #e60076;
+  --color-bg-fuchsia: #c800de;
+  --color-bg-indigo: #4f39f6;
+  --color-bg-red: #e7000b;
+}
+
+
+/* ---------------------------------------------------------------------------
+ * Border colors
+ *
+ * Ported verbatim from the Figma "Border color variables" spec
+ * (file Pxlc9tI2bzrMBFSHfz41s7, node 1146:2451). Third of the --color-*
+ * families, alongside --color-text-* and --color-bg-* above.
+ *
+ * Like the background scale, several shades share a value in light and only
+ * diverge in dark — e.g. all four `base` shades are #e5e7eb in light but span
+ * #101828..#4a5565 in dark.
+ *
+ * 4 tokens are mode-invariant and so are absent from the dark blocks:
+ * dark, brand-light, purple, orange.
+ *
+ * UNVERIFIED — the four `warning` borders. In Figma their swatches are bound to
+ * the --color-text-fg-warning* TEXT tokens rather than to border variables; both
+ * dark warning swatches resolve to the same #fe9a00; and all four palette labels
+ * disagree with the rendered color (e.g. light warning-subtle is labelled
+ * amber-200 but renders #e17100). The values below are what the spec actually
+ * draws, but they need designer confirmation before being relied on.
+ *
+ * NOTE: additive. No component consumes these yet; the `--dfc-*` tokens still
+ * drive every component in this library.
+ */
+:root {
+  /* Very high contrast border for cards, inputs, buttons or icon shapes, holding the same dark color across both modes. */
+  --color-border-dark: #4a5565;
+
+  /* Borders the same color as the background — used around things like timeline icons to define an element without adding a visible line. */
+  --color-border-buffer: #ffffff;
+  --color-border-buffer-medium: #ffffff;
+  --color-border-buffer-strong: #ffffff;
+
+  /* Low contrast dividers, e.g. avatar groups and text dividers. */
+  --color-border-muted: #f9fafb;
+
+  /* Medium contrast dividers, e.g. headings, sections and list items. */
+  --color-border-light-subtle: #f3f4f6;
+  --color-border-light: #f3f4f6;
+  --color-border-light-medium: #f3f4f6;
+
+  /* The workhorse borders: subtle but clear separation, most often on cards, buttons, avatars, icon shapes, inputs and timelines. */
+  --color-border-base-soft: #e5e7eb;
+  --color-border-base: #e5e7eb;
+  --color-border-base-medium: #e5e7eb;
+  --color-border-base-strong: #e5e7eb;
+
+  /* Green border for alerts, badges and banners communicating positive feedback or confirmation. */
+  --color-border-success-subtle: #a4f4cf;
+  --color-border-success: #007a55;
+
+  /* Red border for alerts, badges and banners communicating negative feedback, error states or critical warnings. */
+  --color-border-danger-subtle: #ffccd3;
+  --color-border-danger: #c70036;
+
+  /* Orange border for alerts, badges and banners communicating caution, potential issues or non-critical concerns.
+   * SEE THE NOTE ON WARNING BORDERS ABOVE — these four values are unverified. */
+  --color-border-warning-subtle: #e17100;
+  --color-border-warning: #7b3306;
+
+  /* Brand borders for alerts, badges and banners showing brand identity or informational messages. */
+  --color-border-brand-subtle: #bedbff;
+  --color-border-brand-light: #155dfc;
+  --color-border-brand: #1447e6;
+
+  /* Categorical data in visualizations like charts, graphs and dashboards. */
+  --color-border-purple: #ad46ff;
+  --color-border-orange: #ff8a4c;
+
+  /* Very high contrast border for cards, inputs, buttons or icon shapes, holding the same dark color across both modes. */
+  --color-border-dark-subtle: #1e2939;
+}
+
+@media (prefers-color-scheme: dark) {
+  :root:not([data-theme='light']) {
+    --color-border-buffer: #030712;
+    --color-border-buffer-medium: #101828;
+    --color-border-buffer-strong: #1e2939;
+    --color-border-muted: #101828;
+    --color-border-light-subtle: #101828;
+    --color-border-light: #1e2939;
+    --color-border-light-medium: #333e4f;
+    --color-border-base-soft: #101828;
+    --color-border-base: #1e2939;
+    --color-border-base-medium: #333e4f;
+    --color-border-base-strong: #4a5565;
+    --color-border-success-subtle: #004f3b;
+    --color-border-success: #009966;
+    --color-border-danger-subtle: #8b0836;
+    --color-border-danger: #ec003f;
+    --color-border-warning-subtle: #fe9a00;
+    --color-border-warning: #fe9a00;
+    --color-border-brand-subtle: #1c398e;
+    --color-border-brand: #2b7fff;
+    --color-border-dark-subtle: #333e4f;
+  }
+}
+
+[data-theme='dark'] {
+  --color-border-buffer: #030712;
+  --color-border-buffer-medium: #101828;
+  --color-border-buffer-strong: #1e2939;
+  --color-border-muted: #101828;
+  --color-border-light-subtle: #101828;
+  --color-border-light: #1e2939;
+  --color-border-light-medium: #333e4f;
+  --color-border-base-soft: #101828;
+  --color-border-base: #1e2939;
+  --color-border-base-medium: #333e4f;
+  --color-border-base-strong: #4a5565;
+  --color-border-success-subtle: #004f3b;
+  --color-border-success: #009966;
+  --color-border-danger-subtle: #8b0836;
+  --color-border-danger: #ec003f;
+  --color-border-warning-subtle: #fe9a00;
+  --color-border-warning: #fe9a00;
+  --color-border-brand-subtle: #1c398e;
+  --color-border-brand: #2b7fff;
+  --color-border-dark-subtle: #333e4f;
+}
+
+[data-theme='light'] {
+  --color-border-buffer: #ffffff;
+  --color-border-buffer-medium: #ffffff;
+  --color-border-buffer-strong: #ffffff;
+  --color-border-muted: #f9fafb;
+  --color-border-light-subtle: #f3f4f6;
+  --color-border-light: #f3f4f6;
+  --color-border-light-medium: #f3f4f6;
+  --color-border-base-soft: #e5e7eb;
+  --color-border-base: #e5e7eb;
+  --color-border-base-medium: #e5e7eb;
+  --color-border-base-strong: #e5e7eb;
+  --color-border-success-subtle: #a4f4cf;
+  --color-border-success: #007a55;
+  --color-border-danger-subtle: #ffccd3;
+  --color-border-danger: #c70036;
+  --color-border-warning-subtle: #e17100;
+  --color-border-warning: #7b3306;
+  --color-border-brand-subtle: #bedbff;
+  --color-border-brand: #1447e6;
+  --color-border-dark-subtle: #1e2939;
+}
+
+
+/* ---------------------------------------------------------------------------
+ * Data visualization — categorical palette
+ *
+ * Ported verbatim from the Figma "Data Visualization/Categorical" spec
+ * (file Pxlc9tI2bzrMBFSHfz41s7, node 5208:23277).
+ *
+ * Unlike the text/bg/border families, these swatches are NOT bound to Figma
+ * variables — they are raw fills in the design, so there is no Figma variable
+ * name to mirror. The `--color-viz-categorical-NN` naming is ours, chosen to
+ * leave room for the Sequential and Diverging palettes the same spec describes.
+ *
+ * ORDER IS PART OF THE CONTRACT. Per the spec: "the colors of this palette
+ * should be applied in sequence strictly as described below. the sequence is
+ * carefully curated to maximize contrast between neighboring colors." Assign
+ * 01, then 02, and so on — do not cherry-pick. The JS mirror is an ordered
+ * array for this reason.
+ *
+ * Spec guidance worth honoring at the call site:
+ *   - Limit a chart to 8-10 categories; 3-5 primary colors is better.
+ *   - Never rely on color alone — pair with labels, patterns or shapes.
+ *   - Blue/Orange/Green/Cyan are the color-blind-safe picks; never encode
+ *     critical meaning in Red vs Green alone.
+ *   - Contrast ratio >= 4.5:1 for text or small shapes.
+ *
+ * CAUTION — distinctness holds only within the spec's own 8-10 category limit.
+ * Measured as CIE76 deltaE, the closest pair is:
+ *      first 8 colors:  light dE 35.1, dark dE 27.4  — fine
+ *      first 10:        light dE 23.0 (04/09), dark dE 25.1  — borderline
+ *      all 14:          light dE 7.0 (06 vs 13), dark dE 0.0 — broken
+ * Slots 11-14 are where it fails: in dark, 01 and 14 are both #a684ff and 03
+ * and 11 are both #00d5be (literally identical, only 12 distinct colors for 14
+ * slots); in light, 06 #82181a and 13 #771d1d are two near-identical dark reds.
+ * Stay at or below 10 categories and this palette is sound. Reproduced as
+ * drawn; slots 11-14 need a designer fix.
+ *
+ * NOTE: additive. No component consumes these yet.
+ */
+:root {
+  --color-viz-categorical-01: #7008e7;
+  --color-viz-categorical-02: #00b8db;
+  --color-viz-categorical-03: #00786f;
+  --color-viz-categorical-04: #c6005c;
+  --color-viz-categorical-05: #ffa2a2;
+  --color-viz-categorical-06: #82181a;
+  --color-viz-categorical-07: #00a63e;
+  --color-viz-categorical-08: #372aac;
+  --color-viz-categorical-09: #f6339a;
+  --color-viz-categorical-10: #fdc700;
+  --color-viz-categorical-11: #00bba7;
+  --color-viz-categorical-12: #00d3f2;
+  --color-viz-categorical-13: #771d1d;
+  --color-viz-categorical-14: #8e51ff;
+}
+
+@media (prefers-color-scheme: dark) {
+  :root:not([data-theme='light']) {
+    --color-viz-categorical-01: #a684ff;
+    --color-viz-categorical-02: #00d3f2;
+    --color-viz-categorical-03: #00d5be;
+    --color-viz-categorical-04: #fb64b6;
+    --color-viz-categorical-05: #ff6467;
+    --color-viz-categorical-06: #fef2f2;
+    --color-viz-categorical-07: #7bf1a8;
+    --color-viz-categorical-08: #615fff;
+    --color-viz-categorical-09: #e60076;
+    --color-viz-categorical-10: #f0b100;
+    --color-viz-categorical-11: #00d5be;
+    --color-viz-categorical-12: #00b8db;
+    --color-viz-categorical-13: #d03801;
+    --color-viz-categorical-14: #a684ff;
+  }
+}
+
+[data-theme='dark'] {
+  --color-viz-categorical-01: #a684ff;
+  --color-viz-categorical-02: #00d3f2;
+  --color-viz-categorical-03: #00d5be;
+  --color-viz-categorical-04: #fb64b6;
+  --color-viz-categorical-05: #ff6467;
+  --color-viz-categorical-06: #fef2f2;
+  --color-viz-categorical-07: #7bf1a8;
+  --color-viz-categorical-08: #615fff;
+  --color-viz-categorical-09: #e60076;
+  --color-viz-categorical-10: #f0b100;
+  --color-viz-categorical-11: #00d5be;
+  --color-viz-categorical-12: #00b8db;
+  --color-viz-categorical-13: #d03801;
+  --color-viz-categorical-14: #a684ff;
+}
+
+[data-theme='light'] {
+  --color-viz-categorical-01: #7008e7;
+  --color-viz-categorical-02: #00b8db;
+  --color-viz-categorical-03: #00786f;
+  --color-viz-categorical-04: #c6005c;
+  --color-viz-categorical-05: #ffa2a2;
+  --color-viz-categorical-06: #82181a;
+  --color-viz-categorical-07: #00a63e;
+  --color-viz-categorical-08: #372aac;
+  --color-viz-categorical-09: #f6339a;
+  --color-viz-categorical-10: #fdc700;
+  --color-viz-categorical-11: #00bba7;
+  --color-viz-categorical-12: #00d3f2;
+  --color-viz-categorical-13: #771d1d;
+  --color-viz-categorical-14: #8e51ff;
+}
